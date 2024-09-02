@@ -1,0 +1,53 @@
+@forward '../css/font-awesome-pro.css';
+@forward '../css/flaticon_shofy.css';
+@forward '../css/animate.css';
+@forward 'theme';
+@forward 'components';
+@forward 'layout';
+
+.tp-slider-area .tp-slider-height-2 {
+    min-height: 650px !important;
+}
+
+.container .tp-slider-thumb-2-gradient {
+    position: absolute;
+    top: 7%;
+    right: -7%;
+    display: inline-block;
+    width: 550px;
+    height: 550px;
+    border-radius: 50%;
+    background-color: rgb(255 255 255 / 30%);
+    z-index: 0;
+}
+
+@media (max-width: 1200px) {
+    .tp-banner-thumb-2 {
+        background-position: top !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .tp-banner-item-2 {
+        min-height: 0 !important;
+    }
+}
+
+.tp-banner-item-2 {
+    min-height: 280px;
+}
+
+.tp-cart-plus.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media (max-width: 575px) {
+    .tp-filter-btn {
+        min-width: 100% !important;
+    }    
+    
+    .tp-shop-top-select .nice-select {
+        min-width: 100% !important;
+    }
+}
