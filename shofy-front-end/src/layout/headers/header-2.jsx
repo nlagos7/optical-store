@@ -26,7 +26,7 @@ const HeaderTwo = ({ style_2 = true }) => {
     <>
       <header>
         <div className={`tp-header-area tp-header-style-${style_2 ? 'primary' : 'darkRed'} tp-header-height`}>
-          <div className="tp-header-top-2 p-relative z-index-11 tp-header-top-border d-none d-md-block">
+          <div className="tp-header-top-2 p-relative z-index-11 d-none tp-header-top-border d-md-block">
             <div className="container">
               <div className="row align-items-center">
                 <div className="col-md-6">
@@ -34,7 +34,7 @@ const HeaderTwo = ({ style_2 = true }) => {
                     <div className="tp-header-info-item">
                     <span>
                       <ShippingCar />
-                    </span> Envío GRATIS en pedidos sobre los $50.000
+                    </span> Envio GRATIS desde los $50.000
                     </div>
                   </div>
                 </div>
@@ -85,7 +85,7 @@ const HeaderTwo = ({ style_2 = true }) => {
                             <Compare />
                           </Link>
                         </div>
-                        <div className="tp-header-action-item d-none d-lg-block">
+                        <div className="tp-header-action-item d-lg-block">
                           <Link href="/wishlist" className="tp-header-action-btn">
                             <Wishlist />
                             <span className="tp-header-action-badge">{wishlist.length}</span>

@@ -61,9 +61,10 @@ const OffCanvas = ({ isOffCanvasOpen, setIsCanvasOpen,categoryType = "electronic
           <div className="offcanvas__bottom">
             <div className="offcanvas__footer d-flex align-items-center justify-content-between">
               <div className="offcanvas__currency-wrapper currency">
+              <Link href="/login" className="tp-btn-2 tp-btn-border-2">Iniciar sesión</Link>
               </div>
               <div className="offcanvas__select language">
-              <Link href="/login" className="tp-btn-2 tp-btn-border-2">Iniciar sesión</Link>
+              <Link href="/login" className="tp-btn-2 tp-btn-border-2">Crear cuenta</Link>
               </div>
             </div>
           </div>

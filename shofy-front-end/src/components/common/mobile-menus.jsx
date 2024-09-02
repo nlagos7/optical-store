@@ -49,12 +49,13 @@ const MobileMenus = () => {
               </li>
             ) : menu.sub_menu ? (
               <li key={menu.id} className={`has-dropdown ${isActiveMenu === menu.title ? 'dropdown-opened':''}`}>
-                <a className={`${isActiveMenu === menu.title ? 'expanded':''}`}>
-                  {menu.title}
-                  <button onClick={()=> handleOpenSubMenu(menu.title)} className={`dropdown-toggle-btn ${isActiveMenu === menu.title ? 'dropdown-opened':''}`}>
-                    <i className="fa-regular fa-angle-right"></i>
-                  </button>
-                </a>
+              <a className={`menu-link ${isActiveMenu === menu.title ? 'expanded' : ''}`}>
+                <Image src={menu.icon} alt={`${menu.title} icon`} width={24} height={24} className="menu-icon" />
+                <span>{menu.title}</span>
+                <button onClick={() => handleOpenSubMenu(menu.title)} className={`dropdown-toggle-btn ${isActiveMenu === menu.title ? 'dropdown-opened' : ''}`}>
+                  <i className="fa-regular fa-angle-right"></i>
+                </button>
+              </a>
                 <ul className={`tp-submenu ${isActiveMenu === menu.title ? 'active':''}`}>
                   {menu.sub_menus.map((b, i) => (
                     <li key={i}>
@@ -64,9 +65,12 @@ const MobileMenus = () => {
                 </ul>
               </li>
             ) : (
-              <li key={menu.id}>
-                <Link href={menu.link}>{menu.title}</Link>
-              </li>
+            <li key={menu.id} className="menu-item">
+              <Link href={menu.link} className="menu-link">
+                <Image src={menu.icon} alt={`${menu.title} icon`} width={24} height={24} className="menu-icon" />
+                {menu.title}
+              </Link>
+            </li>
             )}
           </ul>
         ))}

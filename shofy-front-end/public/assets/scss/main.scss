@@ -21,6 +21,65 @@
     z-index: 0;
 }
 
+.tp-main-menu-mobile ul li img {
+    width: 40px;
+}
+
+.tp-main-menu-mobile ul li {
+    padding-left: 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+  }
+  
+.tp-slider-area .tp-btn-border {
+    border-radius: 50px;
+    background-color: var(--tp-common-black);
+    border: 1.5px solid var(--tp-common-black);
+    padding: 8px 29px;
+    color: white;
+}
+
+.tp-slider-area .tp-btn-border:hover {
+    border-radius: 50px;
+    background-color: rgb(255 255 255 / 30%);
+    border: 1.5px solid var(--tp-common-black);
+    padding: 8px 29px;
+    color: var(--tp-common-black);
+}
+
+.tp-banner-area .tp-btn-border:hover {
+    border-radius: 50px;
+    background-color: var(--tp-common-black);
+    border: 1.5px solid var(--tp-common-black);
+    padding: 8px 29px;
+    color: white;
+}
+
+.tp-banner-area .tp-btn-border {
+    border-radius: 50px;
+    background-color: rgb(255 255 255 / 30%);
+    border: 1.5px solid var(--tp-common-black);
+    padding: 8px 29px;
+    color: var(--tp-common-black);
+}
+
+.menu-item .menu-link,
+.has-dropdown .menu-link {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Ajusta este valor para espaciar el icono y el texto */
+    text-decoration: none;
+    color: inherit; /* Asegura que el color del texto se herede correctamente */
+  }
+  
+  .menu-icon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
 @media (max-width: 1200px) {
     .tp-banner-thumb-2 {
         background-position: top !important;
@@ -49,5 +108,9 @@
     
     .tp-shop-top-select .nice-select {
         min-width: 100% !important;
+    }
+
+    .tp-slider-content-2 {
+        padding-top: 50px;
     }
 }
