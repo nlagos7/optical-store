@@ -11,23 +11,29 @@ import slider_img_3 from '@assets/img/slider/2/slider-3.png';
 import slider_shape from '@assets/img/slider/2/shape/shape-1.png';
 import thumb_shape_1 from '@assets/img/slider/2/shape/shape-2.png';
 import thumb_shape_2 from '@assets/img/slider/2/shape/shape-3.png';
+import background1 from '@assets/img/banner/background1.png';
+import background2 from '@assets/img/banner/background2.png';
+import background3 from '@assets/img/banner/background3.png';
 
 // slider data 
 const slider_data = [
   {
     id: 1,
+    background: background1,
     subtitle: 'Colección 2024',
     title: 'Mejora tu salud visual',
     img: slider_img_1,
   },
   {
     id: 2,
+    background: background2,
     subtitle: 'Best Selling 2023',
     title: 'The Summer Collection',
     img: slider_img_2,
   },
   {
     id: 3,
+    background: background3,
     subtitle: 'Winter Has Arrived',
     title: 'Amazing New designs',
     img: slider_img_3,
@@ -56,11 +62,17 @@ const FashionBanner = () => {
         <Swiper {...slider_setting} modules={[Pagination, Navigation, EffectFade]} className="tp-slider-active-2 swiper-container">
           {slider_data.map((item) => (
             <SwiperSlide key={item.id}>
-              <div className="tp-slider-item-2 tp-slider-height-2 p-relative grey-bg-5 d-flex align-items-end">
+              <div className="tp-slider-item-2 tp-slider-height-2 p-relative grey-bg-5 d-flex align-items-end"
+                style={{
+                  backgroundImage: `url(${item.background.src})`, // Aquí aplicamos la imagen de fondo
+                  backgroundSize: 'cover', // Asegura que la imagen cubra todo el área
+                  backgroundPosition: 'center', // Centra la imagen en el contenedor
+                  backgroundRepeat: 'no-repeat' // Evita que la imagen se repita
+                }}>
                 <div className="tp-slider-2-shape">
                   <Image className="tp-slider-2-shape-1" src={slider_shape} alt="slider_shape" />
                 </div>
-                <div className="container">
+                <div className="container" >
                   <div className="row align-items-center">
                     <div className="col-xl-6 col-lg-6 col-md-6">
                       <div className="tp-slider-content-2">
