@@ -34,7 +34,7 @@ const ReviewForm = ({product_id}) => {
   // on submit
   const onSubmit = (data) => {
     if(!user){
-      notifyError("Please login first");
+      notifyError("Por favor, inicia sesión");
       return;
     }
     else {

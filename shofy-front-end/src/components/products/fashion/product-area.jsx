@@ -7,12 +7,12 @@ import ProductItem from './product-item';
 import { HomeTwoPrdLoader } from '@/components/loader';
 
 // tabs
-const tabs = ["All Collection", "Shoes", "Clothing", "Bags"];
+const tabs = ["Todos", "Shoes", "Clothing", "Bags"];
 
 const ProductArea = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const { data: products, isError, isLoading } =
-    useGetProductTypeQuery({ type: 'fashion' });
+    useGetProductTypeQuery({ type: 'lentes-opticos' });
   // handleActiveTab
   const handleActiveTab = (tab) => {
     setActiveTab(tab);
@@ -34,7 +34,7 @@ const ProductArea = () => {
   }
   if (!isLoading && !isError && products?.data?.length > 0) {
     let product_items = products.data;
-    if (activeTab === 'All Collection') {
+    if (activeTab === 'Todos') {
       product_items = products.data
     }
     else if (activeTab === 'Shoes') {
@@ -78,16 +78,15 @@ const ProductArea = () => {
   }
   return (
     <>
-      <section className="tp-product-area pb-90">
+      <section className="tp-product-area pt-50">
         <div className="container">
           <div className="row">
             <div className="col-xl-12">
               <div className="tp-section-title-wrapper-2 text-center mb-35">
                 <span className="tp-section-title-pre-2">
-                  All Product Shop
-                  <TextShapeLine />
+                  Productos
                 </span>
-                <h3 className="tp-section-title-2">Customer Favorite Style Product</h3>
+                <h3 className="tp-section-title-2">en Andes Visión</h3>
               </div>
             </div>
           </div>

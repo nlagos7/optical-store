@@ -66,12 +66,16 @@
     color: var(--tp-common-black);
 }
 
+.tp-product-item-2 .tp-product-thumb-2 {
+    background-color: #f2f3f500;
+}
+
 .menu-item .menu-link,
 .has-dropdown .menu-link {
     display: flex;
     align-items: center;
     gap: 8px; /* Ajusta este valor para espaciar el icono y el texto */
-    text-decoration: none;
+    text-decoration: none;    
     color: inherit; /* Asegura que el color del texto se herede correctamente */
   }
   
@@ -80,16 +84,67 @@
     vertical-align: middle;
   }
 
-@media (max-width: 1200px) {
-    .tp-banner-thumb-2 {
-        background-position: top !important;
-    }
+  .tp-slider-area .tp-slider-2-dot .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    background-color: #fff;
 }
 
-@media (max-width: 1200px) {
-    .tp-banner-item-2 {
-        min-height: 0 !important;
-    }
+  .tp-slider-area .tp-swiper-dot .swiper-pagination-bullet {
+    width: 100px;
+    height: 10px;
+    background-color: #ffffff62;
+    opacity: 1;
+    margin: 0 3px !important;
+    position: relative;
+    border-radius: 0;
+}
+
+.tp-slider-area .tp-slider-2-dot.tp-swiper-dot {
+    position: absolute;
+    left: 50%; /* Mueve el punto de referencia al 50% del contenedor padre */
+    bottom: 0; /* Mantiene el contenedor en la parte inferior */
+    transform: translateX(-50%); /* Ajusta la posición para centrar horizontalmente */
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; /* Asegura que los elementos dentro estén centrados */
+}
+
+.tp-banner-item-2:hover .tp-banner-title-2{
+    opacity: 1;
+}
+
+.tp-banner-title-2{
+    background-color: #00000052;
+    transition: .3s ease;
+    position: absolute;
+    top: 0;
+    color: #fff;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: .3s;
+    z-index: 2;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tp-banner-item-2 .include-bg{
+    background-position: right;
+}
+
+.tp-banner-item-2 {
+    min-height: 280px;
+    border-radius: 20px;
+}
+
+.tp-banner-title-2 a:hover{
+    color: #fff;
 }
 
 .tp-banner-item-2 {
@@ -99,6 +154,10 @@
 .tp-cart-plus.disabled {
     opacity: 0.5;
     pointer-events: none;
+  }
+
+  .tp-category-area{
+    border-radius: 20px;
   }
 
   @media (max-width: 575px) {

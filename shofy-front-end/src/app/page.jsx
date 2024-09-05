@@ -8,7 +8,8 @@ import FashionCategory from '@/components/categories/fashion-category';
 import JewelryBrands from '@/components/brand/jewelry-brands';
 import Footer from "@/layout/footers/footer";
 import FeatureAreaTwo from '@/components/features/feature-area-2';
-
+import ProductArea from '@/components/products/fashion/product-area';
+import PopularProducts from '@/components/products/jewelry/popular-products';
 
 export default function HomePage() {
   return (
@@ -16,8 +17,9 @@ export default function HomePage() {
       <HeaderTwo/>
       <FashionBanner/>
       <FashionCategory/>
-      <FashionTestimonial/>
+      <ProductArea/>
       <BlogArea/>
+      <FashionTestimonial/>
       <FeatureAreaTwo/>
       <InstagramArea/>
       <JewelryBrands/>

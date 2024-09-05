@@ -54,22 +54,14 @@ const FashionCategory = () => {
               {item.parent}
             </a>
           </h3>
-          <div className="tp-banner-btn-2">
-            <a
-              onClick={() => handleCategoryRoute(item.parent)}
-              className="cursor-pointer tp-btn tp-btn-border tp-btn-border-sm"
-            >
-              Ver catalogo <ArrowRightLong />
-            </a>
-          </div>
         </div>
       </div>
     ));
   }
   return (
     <>
-      <section className="tp-banner-area mt-20">
-        <div className="container-fluid tp-gx-40">
+      <section className="container tp-banner-area mt-20">
+        <div className="container-fluid">
           <div className="row tp-gx-20">{content}</div>
         </div>
       </section>

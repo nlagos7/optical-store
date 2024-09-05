@@ -12,7 +12,7 @@ import { HomeTwoPopularPrdLoader } from '@/components/loader';
 // slider setting 
 const slider_setting = {
   slidesPerView: 5,
-  spaceBetween: 25,
+  spaceBetween: 30,
   pagination: {
     el: ".tp-category-slider-dot-4",
     clickable: true,
@@ -47,7 +47,7 @@ const slider_setting = {
 
 const PopularProducts = () => {
   const { data: products, isError, isLoading } =
-    useGetProductTypeQuery({ type: 'jewelry', query: `new=true` });
+    useGetProductTypeQuery({ type: 'lentes-opticos', query: `new=true` });
   // decide what to render
   let content = null;
 
@@ -76,13 +76,12 @@ const PopularProducts = () => {
   }
   return (
     <>
-      <section className="tp-category-area pt-115 pb-105 tp-category-plr-85" style={{backgroundColor:`#EFF1F5`}}>
+      <section className="tp-category-area pt-50 pb-50 mb-40 tp-category-plr-85" style={{backgroundColor:`#EFF1F5`}}>
         <div className="container-fluid">
           <div className="row">
             <div className="col-xl-12">
               <div className="tp-section-title-wrapper-4 mb-60 text-center">
-                <span className="tp-section-title-pre-4">Shop by Category</span>
-                <h3 className="tp-section-title-4">Popular on the Shofy store.</h3>
+                <h3 className="tp-section-title-4">Destacado en Andes Visión</h3>
               </div>
             </div>
           </div>
