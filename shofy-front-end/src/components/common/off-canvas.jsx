@@ -42,7 +42,7 @@ const OffCanvas = ({ isOffCanvasOpen, setIsCanvasOpen,categoryType = "electronic
               </div>
             </div>
             <div className="tp-main-menu-mobile fix d-lg-none mb-40">
-              <MobileMenus />
+              <MobileMenus setIsCanvasOpen={setIsCanvasOpen} />
             </div>
 
             <div className="offcanvas__contact align-items-center d-none">
@@ -58,7 +58,7 @@ const OffCanvas = ({ isOffCanvasOpen, setIsCanvasOpen,categoryType = "electronic
               </div>
             </div>
           </div>
-          <div className="offcanvas__bottom">
+          <div className="offcanvas__bottom d-none">
             <div className="offcanvas__footer d-flex align-items-center justify-content-between">
               <div className="offcanvas__currency-wrapper currency">
               <Link href="/login" className="tp-btn-2 tp-btn-border-2">Iniciar sesión</Link>

@@ -77,6 +77,7 @@ export const mobile_menu = [
       { title: 'Hombre', link: '/shop?category=hombre' },
       { title: 'Mujer', link: '/shop?category=mujer' },
       { title: 'Niños', link: '/shop?category=niños' },
+      { title: 'Ver todo', link: '/shop' },
     ],
   },
   {
@@ -93,7 +94,7 @@ export const mobile_menu = [
     title: 'Contacto',
     link: '/contact',
   },
-  {
+  /*{
     id: 5,
     icon: settingsIcon,
     sub_menu: true,
@@ -104,5 +105,5 @@ export const mobile_menu = [
       { title: 'Favoritos', link: '/wishlist' },
       { title: 'Carrito de compras', link: '/cart' },
     ],
-  },
+  },*/
 ]

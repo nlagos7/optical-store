@@ -32,6 +32,7 @@
     "react-simple-star-rating": "^5.1.7",
     "react-slick": "^0.29.0",
     "react-spinners": "^0.13.8",
+    "react-swipeable": "^7.0.1",
     "react-timer-hook": "^3.0.7",
     "react-to-print": "^2.14.15",
     "react-toastify": "^9.1.3",

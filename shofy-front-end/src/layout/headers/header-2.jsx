@@ -29,7 +29,7 @@ const HeaderTwo = ({ style_2 = true }) => {
           <div className="tp-header-top-2 p-relative z-index-11 d-none tp-header-top-border d-md-block">
             <div className="container">
               <div className="row align-items-center">
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <div className="tp-header-info d-flex align-items-center">
                     <div className="tp-header-info-item">
                     <span>
@@ -38,11 +38,11 @@ const HeaderTwo = ({ style_2 = true }) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6">
+                {/*<div className="col-md-6">
                   <div className="tp-header-top-right tp-header-top-black d-flex align-items-center justify-content-end">
                     <HeaderTopRight />
                   </div>
-                </div>
+                </div>*/}
               </div>
             </div>
           </div>
@@ -91,12 +91,12 @@ const HeaderTwo = ({ style_2 = true }) => {
                             <span className="tp-header-action-badge">{wishlist.length}</span>
                           </Link>
                         </div>
-                        <div className="tp-header-action-item">
+                        {/*<div className="tp-header-action-item">
                           <button onClick={() => dispatch(openCartMini())} className="tp-header-action-btn cartmini-open-btn" >
                             <CartTwo />
                             <span className="tp-header-action-badge">{quantity}</span>
                           </button>
-                        </div>
+                        </div>*/}
                         <div className="tp-header-action-item tp-header-hamburger mr-20 d-xl-none">
                           <button onClick={() => setIsCanvasOpen(true)} type="button" className="tp-offcanvas-open-btn">
                             <Menu />
@@ -112,9 +112,9 @@ const HeaderTwo = ({ style_2 = true }) => {
         </div>
       </header>
 
-      {/* cart mini sidebar start */}
+      {/* cart mini sidebar start 
       <CartMiniSidebar />
-      {/* cart mini sidebar end */}
+       cart mini sidebar end */}
 
       {/* off canvas start */}
       <OffCanvas isOffCanvasOpen={isOffCanvasOpen} setIsCanvasOpen={setIsCanvasOpen} categoryType="fashion" />
