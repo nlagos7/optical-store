@@ -166,7 +166,7 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
           <CompareTwo />
           Comparar
         </button>
-        <button disabled={status === 'out-of-stock'} onClick={() => handleWishlistProduct(productItem)} type="button" className="tp-product-details-action-sm-btn">
+        <button disabled={status === 'out-of-stock'} onClick={() => dispatch(handleModalClose())} type="button" className="tp-product-details-action-sm-btn">
           <WishlistTwo />
           Agregar a favoritos
         </button>

@@ -39,7 +39,7 @@ const RegisterForm = () => {
         notifyError("Register Failed");
       } else {
         notifySuccess(result?.data?.message);
-        router.push('/checkout');
+        router.push('/');
       }
     });
     reset();
