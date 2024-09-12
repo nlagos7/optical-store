@@ -18,7 +18,7 @@ export default function HomePage() {
       <FashionBanner/>
       <FashionCategory/>
       <ProductArea/>
-      <BlogArea/>
+      {/*<BlogArea/>*/}
       <FashionTestimonial/>
       <FeatureAreaTwo/>
       <InstagramArea/>

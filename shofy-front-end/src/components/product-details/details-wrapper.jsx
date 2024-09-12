@@ -18,14 +18,25 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
   const { sku, img, title, imageURLs, category, description, discount, price, status, reviews, tags, offerDate, quantity } = productItem || {};
   const [ratingVal, setRatingVal] = useState(0);
   const [textMore, setTextMore] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { orderQuantity } = useSelector((state) => state.cart);
+
+  const [productUrl, setProductUrl] = useState('');
+
+  // Obtener automáticamente la URL actual de la página
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setProductUrl(window.location.href);
+    }
+  }, []);
+
   // handleIncrease
   const handleIncrease = () => {
     if (orderQuantity < quantity) {
       dispatch(increment());
     }
   };
+
   // handleDecrease
   const handleDecrease = () => {
     dispatch(decrement());
@@ -68,14 +79,6 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
       <div className="tp-product-details-inventory d-flex align-items-center mb-10">
         <div className="tp-product-details-stock mb-10">
           <span>{status}</span>
-        </div>
-        <div className="tp-product-details-rating-wrapper d-flex align-items-center mb-10">
-          <div className="tp-product-details-rating">
-            <Rating allowFraction size={16} initialValue={ratingVal} readonly={true} />
-          </div>
-          <div className="tp-product-details-reviews">
-            <span>({reviews && reviews.length > 0 ? reviews.length : 0} Reseñas)</span>
-          </div>
         </div>
       </div>
       <p>
@@ -134,28 +137,6 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
 
       {/* actions */}
       <div className="tp-product-details-action-wrapper">
-        <h3 className="tp-product-details-action-title">Cantidad</h3>
-        <div className="tp-product-details-action-item-wrapper d-sm-flex align-items-center">
-        {/* product quantity */}
-        <div className="tp-product-details-quantity">
-          <div className="tp-product-quantity mb-15 mr-15">
-            <span className="tp-cart-minus" onClick={handleDecrease}>
-              <Minus />
-            </span>
-            <input className="tp-cart-input" type="text" readOnly value={orderQuantity} />
-            <span
-              className={`tp-cart-plus ${orderQuantity >= quantity ? 'disabled' : ''}`}
-              onClick={handleIncrease}
-            >
-              <Plus />
-            </span>
-          </div>
-        </div>
-        {/* product quantity */}
-          <div className="tp-product-details-add-to-cart mb-15 w-100">
-            <button onClick={() => handleAddProduct(productItem)} disabled={status === 'out-of-stock'} className="tp-product-details-add-to-cart-btn w-100">Añadir al carrito</button>
-          </div>
-        </div>
         <Link href="/cart" onClick={() => handleAddProduct(productItem)}>
           <button className="tp-product-details-buy-now-btn w-100">Comprar</button>
         </Link>
@@ -177,7 +158,15 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
       </div>
       {/* product-details-action-sm end */}
 
-      {detailsBottom && <DetailsBottomInfo category={category?.name} sku={sku} tag={tags[0]} />}
+      {detailsBottom && (
+        <DetailsBottomInfo 
+          category={category?.name} 
+          sku={sku} 
+          tag={tags[0]} 
+          productUrl={productUrl} 
+          productName={title} 
+        />
+      )}
     </div>
   );
 };

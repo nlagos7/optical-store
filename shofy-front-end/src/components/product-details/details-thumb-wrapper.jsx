@@ -4,8 +4,13 @@ import { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
 import PopupVideo from "../common/popup-video";
 
-// Modal para mostrar la imagen en grande y cambiar con swipe y flechas
+// Modal para mostrar la imagen en grande y cambiar con swipe, zoom y movimiento
 const ImageModal = ({ isOpen, images, activeIndex, onClose, onNext, onPrev }) => {
+  const [scale, setScale] = useState(1); // Estado para controlar el zoom
+  const [isDragging, setIsDragging] = useState(false); // Estado para saber si estamos arrastrando
+  const [position, setPosition] = useState({ x: 0, y: 0 }); // Estado de la posición de la imagen
+  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 }); // Posición inicial al hacer clic
+
   // Manejo del swipe para dispositivos móviles y escritorio
   const handlers = useSwipeable({
     onSwipedLeft: () => onNext(),
@@ -28,25 +33,88 @@ const ImageModal = ({ isOpen, images, activeIndex, onClose, onNext, onPrev }) =>
     };
   }, [isOpen]);
 
+  // Función para cerrar el modal al hacer clic en el fondo
+  const handleClickOutside = (e) => {
+    if (e.target.classList.contains('modal-overlay')) {
+      onClose();
+    }
+  };
+
+  // Función para hacer zoom
+  const handleWheelZoom = (e) => {
+    e.preventDefault();
+    const newScale = e.deltaY < 0
+      ? Math.min(scale + 0.1, 3) // Zoom in con límite máximo de 3x
+      : Math.max(scale - 0.1, 1); // Zoom out con límite mínimo de 1x
+
+    setScale(newScale);
+  };
+
+  // Iniciar el arrastre
+  const handleMouseDown = (e) => {
+    if (scale > 1) {
+      setIsDragging(true);
+      setStartPosition({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y,
+      });
+    }
+  };
+
+  // Finalizar el arrastre
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Controlar el arrastre
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      setPosition({
+        x: e.clientX - startPosition.x,
+        y: e.clientY - startPosition.y,
+      });
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" {...handlers}>
+    <div
+      className="modal-overlay"
+      {...handlers}
+      onClick={handleClickOutside}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
       <div className="modal-content">
         {/* Flecha izquierda para imagen anterior */}
         <button className="arrow-left" onClick={onPrev}>
           &#10094;
         </button>
 
-        {/* Imagen actual con max-height para versión escritorio */}
-        <Image
-          src={images[activeIndex].img}
-          alt="product img enlarged"
-          layout="intrinsic" // Asegura que la imagen mantenga su tamaño original
-          width={800} // Puedes ajustar el tamaño base aquí
-          height={800}
-          style={{ maxWidth: "100%", maxHeight: "100vh", width: "auto", height: "auto" }}
-        />
+        {/* Imagen actual con zoom y movimiento */}
+        <div
+          className="zoomable-image-wrapper"
+          onWheel={handleWheelZoom}
+          onMouseDown={handleMouseDown}
+        >
+          <Image
+            src={images[activeIndex].img}
+            alt="product img enlarged"
+            layout="intrinsic"
+            width={800}
+            height={800}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100vh",
+              width: "auto",
+              height: "auto",
+              transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
+              transition: !isDragging ? "transform 0.2s ease" : "none", // Suavizar solo cuando no arrastra
+              cursor: scale > 1 ? "grab" : "default", // Mostrar cursor de arrastre si está haciendo zoom
+            }}
+          />
+        </div>
 
         {/* Flecha derecha para imagen siguiente */}
         <button className="arrow-right" onClick={onNext}>
@@ -171,7 +239,7 @@ const DetailsThumbWrapper = ({
         />
       )}
 
-      {/* modal popup for image with swipe functionality */}
+      {/* modal popup for image with swipe and zoom functionality */}
       <ImageModal
         isOpen={isImageModalOpen}
         images={imageURLs}

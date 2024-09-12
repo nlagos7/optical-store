@@ -37,7 +37,7 @@ const blogData = [
     img: blog_1,
     date: "14 January, 2023",
     author:'Mark Smith',
-    title: "The Modern Art Clay Ceramics.",
+    title: "Salud Visual: Cómo Cuidar de tus Ojos en la Era Digital",
     tags: ["Tablet", "News"],
     category:'electronics',
     comments:2,

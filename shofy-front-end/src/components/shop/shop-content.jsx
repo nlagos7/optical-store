@@ -47,8 +47,8 @@ const ShopContent = ({all_products,products,otherProps,shop_right,hidden_sidebar
                   <CategoryFilter setCurrPage={setCurrPage} />
                   {/* color */}
                   <ColorFilter setCurrPage={setCurrPage} />
-                  {/* product rating */}
-                  <TopRatedProducts />
+                  {/* product rating 
+                  <TopRatedProducts />*/}
                   {/* brand */}
                   <ProductBrand setCurrPage={setCurrPage} />
                   {/* reset filter */}

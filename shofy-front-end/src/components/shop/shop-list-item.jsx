@@ -108,11 +108,11 @@ const ShopListItem = ({ product }) => {
           <p>
             {description.substring(0, 100)}
           </p>
-          <div className="tp-product-list-add-to-cart">
+          {/*<div className="tp-product-list-add-to-cart">
             <button onClick={() => handleAddProduct(product)} className="tp-product-list-add-to-cart-btn">
               Añadir al carrito
             </button>
-          </div>
+          </div>*/}
         </div>
       </div>
     </div>

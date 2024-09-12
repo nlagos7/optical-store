@@ -59,7 +59,7 @@ const ProductItem = ({ product, style_2 = false }) => {
         <div className="tp-product-badge">
           {status === 'out-of-stock' && <span className="product-hot">Sin stock</span>}
         </div>
-        {/* product action */}
+        {/* product action
         <div className="tp-product-action-2 tp-product-action-blackStyle">
           <div className="tp-product-action-item-2 d-flex flex-column">
             {isAddedToCart ? (
@@ -107,7 +107,7 @@ const ProductItem = ({ product, style_2 = false }) => {
               </span>
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="tp-product-content-2 pt-15">
         <div className="tp-product-tag-2">

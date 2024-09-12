@@ -166,96 +166,90 @@
 
 /* Superposición del modal (fondo oscuro) */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-/* Superposición del modal (fondo oscuro) */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Fondo oscuro con opacidad */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  /* Contenido del modal con fondo blanco */
-  .modal-content {
-    position: relative;
-    background-color: white; /* Fondo blanco */
-    border-radius: 10px;
-    max-width: 100%;
-    max-height: 100vh; /* Limitar la altura a la resolución de la pantalla */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    padding: 20px;
-  }
-  
-  /* Flechas para cambiar la imagen en el modal */
-  .arrow-left, .arrow-right {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 30px;
-    padding: 10px;
-    cursor: pointer;
-    border: none;
-    z-index: 10;
-  }
-  
-  .arrow-left {
-    left: 10px;
-  }
-  
-  .arrow-right {
-    right: 10px;
-  }
-  
-  .arrow-left:hover, .arrow-right:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-  
-  /* Cerrar el modal */
-  .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    z-index: 1002;
-  }
-  
-  .close-modal:hover {
-    background: darkred;
-  }
-  
-  /* Imagen dentro del modal */
-  .modal-content img {
-    max-width: 100%;
-    max-height: 100vh; /* Limitar la altura al 100% del viewport */
-    width: auto;
-    height: auto;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); /* Fondo oscuro con opacidad */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenido del modal con fondo blanco */
+.modal-content {
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  max-width: 100%;
+  max-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Flechas para cambiar la imagen en el modal */
+.arrow-left, .arrow-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.137);
+  color: white;
+  font-size: 30px;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  z-index: 10;
+}
+
+.arrow-left {
+  left: 10px;
+}
+
+.arrow-right {
+  right: 10px;
+}
+
+.arrow-left:hover, .arrow-right:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Cerrar el modal */
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+.close-modal:hover {
+  background: darkred;
+}
+
+/* Imagen dentro del modal */
+.modal-content img {
+  max-width: 100%;
+  max-height: 100vh; /* Limitar la altura al 100% del viewport */
+  width: auto;
+  height: auto;
+  cursor: grab;
+}
+
+/* Contenedor para la funcionalidad de zoom */
+.zoomable-image-wrapper {
+  overflow: hidden;
+  cursor: grab;
+}
+
   
   @media (max-width: 575px) {
     .tp-filter-btn {
