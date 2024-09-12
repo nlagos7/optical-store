@@ -141,7 +141,7 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
           <button className="tp-product-details-buy-now-btn w-100">Comprar</button>
         </Link>
       </div>
-      {/* product-details-action-sm start */}
+      {/* product-details-action-sm start
       <div className="tp-product-details-action-sm">
         <button disabled={status === 'out-of-stock'} onClick={() => handleCompareProduct(productItem)} type="button" className="tp-product-details-action-sm-btn">
           <CompareTwo />
@@ -155,7 +155,7 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
           <AskQuestion />
           Consultar
         </button>
-      </div>
+      </div> */}
       {/* product-details-action-sm end */}
 
       {detailsBottom && (

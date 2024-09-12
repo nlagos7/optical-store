@@ -46,7 +46,7 @@ const ShopListItem = ({ product }) => {
           <Image src={img} alt="product img" width={350} height={310} />
         </Link>
 
-        {/* <!-- product action --> */}
+        {/* <!-- product action --> 
         <div className="tp-product-action-2 tp-product-action-blackStyle">
           <div className="tp-product-action-item-2 d-flex flex-column">
             <button
@@ -80,7 +80,7 @@ const ShopListItem = ({ product }) => {
               </span>
             </button>
           </div>
-        </div>
+        </div>*/}
       </div>
       <div className="tp-product-list-content">
         <div className="tp-product-content-2 pt-15">

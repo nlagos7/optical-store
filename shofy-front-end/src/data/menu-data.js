@@ -45,7 +45,7 @@ const menu_data = [
   },
   {
     id: 3,
-    title: 'Productos',
+    title: 'Catalogo',
     link: '/shop',
   },
   {
@@ -84,7 +84,7 @@ export const mobile_menu = [
     id: 3,
     icon: storeIcon,
     single_link: true,
-    title: 'Productos',
+    title: 'Catalogo',
     link: '/shop',
   },
   {

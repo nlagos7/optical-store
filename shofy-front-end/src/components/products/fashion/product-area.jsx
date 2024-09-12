@@ -7,7 +7,7 @@ import ProductItem from './product-item';
 import { HomeTwoPrdLoader } from '@/components/loader';
 
 // tabs
-const tabs = ["Todos", "Shoes", "Clothing", "Bags"];
+const tabs = ["Todos", "Hombre", "Mujer", "Niños"];
 
 const ProductArea = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -37,12 +37,12 @@ const ProductArea = () => {
     if (activeTab === 'Todos') {
       product_items = products.data
     }
-    else if (activeTab === 'Shoes') {
-      product_items = products.data.filter(p => p.category.name === 'Shoes')
-    } else if (activeTab === 'Clothing') {
-      product_items = products.data.filter(p => p.category.name === 'Clothing')
-    } else if (activeTab === 'Bags') {
-      product_items = products.data.filter(p => p.category.name === 'Bags')
+    else if (activeTab === 'Hombre') {
+      product_items = products.data.filter(p => p.category.name === 'Hombre')
+    } else if (activeTab === 'Mujer') {
+      product_items = products.data.filter(p => p.category.name === 'Mujer')
+    } else if (activeTab === 'Niños') {
+      product_items = products.data.filter(p => p.category.name === 'Niños')
     } else {
       product_items = products.data;
     }
