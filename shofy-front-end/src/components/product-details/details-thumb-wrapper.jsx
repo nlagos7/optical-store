@@ -1,254 +1,342 @@
 'use client';
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { useSwipeable } from "react-swipeable";
-import PopupVideo from "../common/popup-video";
+import { useState, useEffect, useRef } from "react";
 
-// Modal para mostrar la imagen en grande y cambiar con swipe, zoom y movimiento
-const ImageModal = ({ isOpen, images, activeIndex, onClose, onNext, onPrev }) => {
-  const [scale, setScale] = useState(1); // Estado para controlar el zoom
-  const [isDragging, setIsDragging] = useState(false); // Estado para saber si estamos arrastrando
-  const [position, setPosition] = useState({ x: 0, y: 0 }); // Estado de la posición de la imagen
-  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 }); // Posición inicial al hacer clic
-
-  // Manejo del swipe para dispositivos móviles y escritorio
-  const handlers = useSwipeable({
-    onSwipedLeft: () => onNext(),
-    onSwipedRight: () => onPrev(),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true, // Permite que también funcione con el mouse en escritorio
-  });
-
-  // Deshabilitar el scroll cuando el modal está abierto
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-
-    // Restaurar el scroll cuando se cierra el modal
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen]);
-
-  // Función para cerrar el modal al hacer clic en el fondo
-  const handleClickOutside = (e) => {
-    if (e.target.classList.contains('modal-overlay')) {
-      onClose();
-    }
-  };
-
-  // Función para hacer zoom
-  const handleWheelZoom = (e) => {
-    e.preventDefault();
-    const newScale = e.deltaY < 0
-      ? Math.min(scale + 0.1, 3) // Zoom in con límite máximo de 3x
-      : Math.max(scale - 0.1, 1); // Zoom out con límite mínimo de 1x
-
-    setScale(newScale);
-  };
-
-  // Iniciar el arrastre
-  const handleMouseDown = (e) => {
-    if (scale > 1) {
-      setIsDragging(true);
-      setStartPosition({
-        x: e.clientX - position.x,
-        y: e.clientY - position.y,
-      });
-    }
-  };
-
-  // Finalizar el arrastre
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  // Controlar el arrastre
-  const handleMouseMove = (e) => {
-    if (isDragging) {
-      setPosition({
-        x: e.clientX - startPosition.x,
-        y: e.clientY - startPosition.y,
-      });
-    }
-  };
-
-  if (!isOpen) return null;
-
-  return (
-    <div
-      className="modal-overlay"
-      {...handlers}
-      onClick={handleClickOutside}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    >
-      <div className="modal-content">
-        {/* Flecha izquierda para imagen anterior */}
-        <button className="arrow-left" onClick={onPrev}>
-          &#10094;
-        </button>
-
-        {/* Imagen actual con zoom y movimiento */}
-        <div
-          className="zoomable-image-wrapper"
-          onWheel={handleWheelZoom}
-          onMouseDown={handleMouseDown}
-        >
-          <Image
-            src={images[activeIndex].img}
-            alt="product img enlarged"
-            layout="intrinsic"
-            width={800}
-            height={800}
-            style={{
-              maxWidth: "100%",
-              maxHeight: "100vh",
-              width: "auto",
-              height: "auto",
-              transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
-              transition: !isDragging ? "transform 0.2s ease" : "none", // Suavizar solo cuando no arrastra
-              cursor: scale > 1 ? "grab" : "default", // Mostrar cursor de arrastre si está haciendo zoom
-            }}
-          />
-        </div>
-
-        {/* Flecha derecha para imagen siguiente */}
-        <button className="arrow-right" onClick={onNext}>
-          &#10095;
-        </button>
-
-        <button onClick={onClose} className="close-modal">Cerrar</button>
-      </div>
-    </div>
-  );
-};
-
+// Componente principal de visualización de imágenes estilo Mercado Libre (sin zoom)
 const DetailsThumbWrapper = ({
   imageURLs,
   handleImageActive,
-  activeImg,
+  activeImg,  // Este prop ahora viene del componente padre
   imgWidth = 416,
   imgHeight = 480,
-  videoId = false,
-  status
 }) => {
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Estado para controlar el modal de la imagen
   const [activeIndex, setActiveIndex] = useState(0); // Índice de la imagen activa
+  const [isMobile, setIsMobile] = useState(false); // Estado para detectar si es versión móvil
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la apertura del modal
+  const touchStartX = useRef(0); // Para almacenar el inicio del gesto de swipe
+  const touchEndX = useRef(0); // Para almacenar el final del gesto de swipe
+  const touchMoved = useRef(false); // Para determinar si el toque fue un swipe o un clic
 
-  // Función para abrir el modal de la imagen
-  const handleImageClick = (index) => {
-    setActiveIndex(index);
-    setIsImageModalOpen(true);
+  // Cambiar la imagen activa y actualizar el índice basado en la imagen
+  const changeImage = (index) => {
+    if (index >= 0 && index < imageURLs.length) {
+      setActiveIndex(index); // Actualizamos el índice activo
+      handleImageActive(imageURLs[index]); // Actualizamos la imagen activa
+    }
   };
 
-  // Función para cerrar el modal
-  const handleCloseModal = () => {
-    setIsImageModalOpen(false);
+  // Sincronizar la imagen activa con el estado recibido desde el componente padre
+  useEffect(() => {
+    const index = imageURLs.findIndex((img) => img.img === activeImg); // Buscar el índice de la imagen activa
+    if (index !== -1) {
+      setActiveIndex(index); // Actualizar el índice si la imagen coincide
+    }
+  }, [activeImg, imageURLs]);
+
+  // Detectar si es móvil
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Asume móvil si el ancho es <= 768px
+    };
+    handleResize(); // Llamar inmediatamente para ajustar el estado
+    window.addEventListener("resize", handleResize); // Escuchar cambios en el tamaño de ventana
+    return () => window.removeEventListener("resize", handleResize); // Limpiar el evento al desmontar
+  }, []);
+
+  // Efecto para deshabilitar el scroll de fondo cuando el modal está abierto
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden'; // Desactivar el scroll del fondo
+    } else {
+      document.body.style.overflow = ''; // Volver a activar el scroll
+    }
+    return () => {
+      document.body.style.overflow = ''; // Limpiar al desmontar el componente
+    };
+  }, [isModalOpen]);
+
+  // Funciones para detectar el gesto de swipe
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.changedTouches[0].screenX; // Almacenar la posición inicial del dedo
+    touchMoved.current = false; // Inicializar touchMoved
   };
 
-  // Función para ir a la siguiente imagen
-  const handleNextImage = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % imageURLs.length);
-    handleImageActive(imageURLs[(activeIndex + 1) % imageURLs.length]); // Actualizar la imagen principal
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.changedTouches[0].screenX; // Almacenar la posición del dedo mientras se mueve
+    touchMoved.current = true; // Marcar que el usuario ha deslizado
   };
 
-  // Función para ir a la imagen anterior
-  const handlePrevImage = () => {
-    setActiveIndex((prevIndex) => (prevIndex - 1 + imageURLs.length) % imageURLs.length);
-    handleImageActive(imageURLs[(activeIndex - 1 + imageURLs.length) % imageURLs.length]); // Actualizar la imagen principal
+  const handleTouchEnd = () => {
+    if (!touchMoved.current) return; // Si el usuario no deslizó, no hacemos nada
+
+    if (touchStartX.current - touchEndX.current > 50) {
+      // Si desliza a la izquierda (swipe left)
+      changeImage((activeIndex + 1) % imageURLs.length); // Cambiar a la siguiente imagen, con efecto infinito
+    } else if (touchStartX.current - touchEndX.current < -50) {
+      // Si desliza a la derecha (swipe right)
+      changeImage((activeIndex - 1 + imageURLs.length) % imageURLs.length); // Cambiar a la imagen anterior, con efecto infinito
+    }
+  };
+
+  // Abrir el modal al hacer clic en la imagen
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Cerrar el modal al hacer clic en el fondo oscuro
+  const closeModal = (e) => {
+    if (e.target.classList.contains('modal-background')) {
+      setIsModalOpen(false);
+    }
   };
 
   return (
-    <>
-      <div className="tp-product-details-thumb-wrapper tp-tab d-sm-flex">
-        <nav>
-          <div className="nav nav-tabs flex-sm-column">
-            {imageURLs?.map((item, i) => (
-              <button
-                key={i}
-                className={`nav-link ${item.img === activeImg ? "active" : ""}`}
-                onClick={() => {
-                  handleImageActive(item);
-                  setActiveIndex(i);
-                }}
-              >
-                <Image
-                  src={item.img}
-                  alt="image"
-                  width={78}
-                  height={100}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </button>
-            ))}
-          </div>
-        </nav>
-        <div className="tab-content m-img">
-          <div className="tab-pane fade show active">
-            <div className="tp-product-details-nav-main-thumb p-relative">
-              {/* Flecha izquierda para cambiar la imagen anterior en la imagen principal */}
-              <button className="arrow-left" onClick={handlePrevImage}>
-                &#10094;
-              </button>
-
-              {/* Imagen principal */}
+    <div className="ml-image-viewer" style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' }}>
+      {/* Miniaturas solo en desktop */}
+      {!isMobile && (
+        <div className="thumbnail-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {imageURLs?.map((item, i) => (
+            <button
+              key={i}
+              className={`thumbnail-button ${i === activeIndex ? "active" : ""}`}
+              onMouseEnter={() => changeImage(i)} // Cambia la imagen al hacer hover
+              onClick={() => changeImage(i)} // Asegura que también cambia al hacer clic
+              style={{
+                border: i === activeIndex ? "1px solid black" : "1px solid #e0e0e0", // Siempre un borde de 1px
+                padding: '2px', // Ajuste para que la imagen no quede pegada al borde
+                transition: 'border 0.2s ease-in-out', // Transición suave
+              }}
+            >
               <Image
-                src={activeImg}
-                alt="product img"
-                width={imgWidth}
-                height={imgHeight}
-                onClick={() => handleImageClick(activeIndex)} // Abrir modal con la imagen activa
-                style={{ cursor: "pointer" }} // Añadir cursor para indicar que es clickeable
+                src={item.img}
+                alt="product-thumbnail"
+                width={78}
+                height={100}
+                quality={100} // Calidad máxima para la miniatura
+                style={{ width: "100%", height: "100%", objectFit: "contain" }} // Aseguramos que las miniaturas también mantengan proporciones
+                priority={i === 0} // Prioriza la primera imagen
               />
-
-              {/* Flecha derecha para cambiar la imagen siguiente en la imagen principal */}
-              <button className="arrow-right" onClick={handleNextImage}>
-                &#10095;
-              </button>
-
-              <div className="tp-product-badge">
-                {status === 'out-of-stock' && <span className="product-hot">Sin stock</span>}
-              </div>
-
-              {videoId && (
-                <div
-                  onClick={() => setIsVideoOpen(true)}
-                  className="tp-product-details-thumb-video"
-                >
-                  <a className="tp-product-details-thumb-video-btn cursor-pointer popup-video">
-                    <i className="fas fa-play"></i>
-                  </a>
-                </div>
-              )}
-            </div>
-          </div>
+            </button>
+          ))}
         </div>
-      </div>
-
-      {/* modal popup for video */}
-      {videoId && (
-        <PopupVideo
-          isVideoOpen={isVideoOpen}
-          setIsVideoOpen={setIsVideoOpen}
-          videoId={videoId}
-        />
       )}
 
-      {/* modal popup for image with swipe and zoom functionality */}
-      <ImageModal
-        isOpen={isImageModalOpen}
-        images={imageURLs}
-        activeIndex={activeIndex}
-        onClose={handleCloseModal}
-        onNext={handleNextImage}
-        onPrev={handlePrevImage}
-      />
-    </>
+      {/* Imagen principal */}
+      <div
+        className="main-image-container"
+        style={{ position: "relative", backgroundColor: "#fff", marginLeft: !isMobile ? '20px' : '0', width: isMobile ? '100%' : `${imgWidth}px`, height: isMobile ? 'auto' : `${imgHeight}px` }}
+        onClick={openModal} // Abrir modal al hacer clic en la imagen
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd} // Swipe para la vista normal
+      >
+        <div
+          className="main-image"
+          style={{
+            position: 'relative',
+            width: "100%",
+            height: "100%",
+            overflow: 'hidden',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center', // Centrar imagen verticalmente
+          }}
+        >
+          <Image
+            src={activeImg} // Utilizar activeImg directamente
+            alt="product img"
+            width={imgWidth}
+            height={imgHeight}
+            quality={100} // Forzar máxima calidad
+            priority // Priorizar la imagen principal para evitar demoras
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain", // Ajuste para que la imagen siempre mantenga sus proporciones
+              width: isMobile ? 'auto' : `${imgWidth}px`,
+              height: isMobile ? 'auto' : `${imgHeight}px`,
+            }}
+          />
+
+          {/* Contador de imágenes en la imagen principal */}
+          {isMobile && (
+            <div style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: 'rgba(0,0,0,0.5)', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontSize: '14px' }}>
+              {activeIndex + 1} / {imageURLs.length}
+            </div>
+          )}
+        </div>
+
+        {/* Indicadores de posición (círculos) para Mobile (vista normal) */}
+        {isMobile && (
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+            {imageURLs?.map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: i === activeIndex ? '#000' : '#e0e0e0',
+                  margin: '0 4px',
+                  cursor: 'pointer',
+                }}
+                onClick={() => changeImage(i)} // Cambiar imagen al hacer clic en los círculos
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Modal para mostrar slideshow */}
+      {isModalOpen && (
+        <div
+          className="modal-background"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.95)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+          onClick={closeModal} // Cerrar modal al hacer clic en el fondo oscuro
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd} // Swipe dentro del modal
+        >
+          <button
+            onClick={closeModal}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              color: '#fff',
+              background: 'none',
+              border: 'none',
+              fontSize: '24px',
+              cursor: 'pointer',
+            }}
+          >
+            &times;
+          </button>
+
+          {/* Contador de imágenes fuera de la imagen, al mismo nivel que el botón cerrar */}
+          <div style={{ position: 'absolute', top: '10px', left: '10px', backgroundColor: 'rgba(0,0,0,0.5)', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontSize: '14px' }}>
+            {activeIndex + 1} / {imageURLs.length}
+          </div>
+
+          <div
+            className="modal-content"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              backgroundColor: '#fff', // Fondo blanco para la imagen
+              borderRadius: '0', // Aquí añadimos el border: 0
+            }}
+            onClick={(e) => e.stopPropagation()} // Evitar cerrar el modal al hacer clic en la imagen
+          >
+            <Image
+              src={imageURLs[activeIndex].img} // Mostrar la imagen actual en el modal
+              alt="modal-image"
+              layout="intrinsic"
+              objectFit="contain"
+              width={800}
+              height={800}
+              style={{
+                objectFit: 'contain', // Ajustar la imagen al tamaño disponible
+                width: isMobile ? '100%' : 'auto', // Aplicar width 100% solo en mobile
+                height: 'auto',
+                maxWidth: '100%',
+                maxHeight: '100%',
+              }}
+            />
+          </div>
+
+          {/* Flechas para cambiar imagen en el modal en DESKTOP */}
+          {!isMobile && (
+            <>
+              <button
+                onClick={() => changeImage((activeIndex - 1 + imageURLs.length) % imageURLs.length)} // Imagen anterior en el modal
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'rgba(0, 0, 0, 0.6)', // Fondo semitransparente oscuro
+                  border: 'none',
+                  width: '40px', // Tamaño del botón cuadrado
+                  height: '40px',
+                  borderRadius: '8px', // Esquinas redondeadas
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  color: '#fff',
+                  fontSize: '20px', // Tamaño de la flecha
+                  transition: 'background 0.3s ease', // Transición suave para el fondo
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)')} // Efecto hover
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)')} // Quitar efecto hover
+              >
+                &larr;
+              </button>
+
+              <button
+                onClick={() => changeImage((activeIndex + 1) % imageURLs.length)} // Siguiente imagen en el modal
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'rgba(0, 0, 0, 0.6)', // Fondo semitransparente oscuro
+                  border: 'none',
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  color: '#fff',
+                  fontSize: '20px',
+                  transition: 'background 0.3s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)')}
+              >
+                &rarr;
+              </button>
+            </>
+          )}
+
+          {/* Círculos indicadores para cambiar imagen en el modal en mobile */}
+          {isMobile && (
+            <div style={{ position: 'absolute', bottom: '20px', display: 'flex', justifyContent: 'center' }}>
+              {imageURLs?.map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: '10px',
+                    height: '10px',
+                    borderRadius: '50%',
+                    backgroundColor: i === activeIndex ? '#fff' : '#888',
+                    margin: '0 6px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => changeImage(i)} // Cambiar la imagen en el modal al hacer clic en los indicadores
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 

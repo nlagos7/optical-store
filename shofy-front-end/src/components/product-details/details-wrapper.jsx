@@ -81,14 +81,6 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
           <span>{status}</span>
         </div>
       </div>
-      <p>
-        {textMore ? description : `${description.substring(0, 100)}`}
-        {description.length >= 100 && (
-          <span onClick={() => setTextMore(!textMore)}>
-            {textMore ? ' Ver menos' : '... Ver más'}
-          </span>
-        )}
-      </p>
 
       {/* price */}
       <div className="tp-product-details-price-wrapper mb-20">

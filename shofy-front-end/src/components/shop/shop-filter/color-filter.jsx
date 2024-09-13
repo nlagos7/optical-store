@@ -9,29 +9,30 @@ import { useGetAllProductsQuery } from "@/redux/features/productApi";
 import { handleFilterSidebarClose } from "@/redux/features/shop-filter-slice";
 import ShopColorLoader from "@/components/loader/shop/color-filter-loader";
 
-const ColorFilter = ({setCurrPage,shop_right=false}) => {
+const ColorFilter = ({ setCurrPage, shop_right = false }) => {
   const { data: products, isError, isLoading } = useGetAllProductsQuery();
   const router = useRouter();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const color = searchParams.get('color');
 
   // handle color 
   const handleColor = (clr) => {
-    setCurrPage(1)
+    setCurrPage(1);
     router.push(
-      `/${shop_right?'shop-right-sidebar':'shop'}?color=${clr
+      `/${shop_right ? 'shop-right-sidebar' : 'shop'}?color=${clr
         .toLowerCase()
         .split(" ")
         .join("-")}`
-    )
+    );
     dispatch(handleFilterSidebarClose());
-  }
+  };
+
   // decide what to render
   let content = null;
 
   if (isLoading) {
-    content = <ShopColorLoader loading={isLoading}/>;
+    content = <ShopColorLoader loading={isLoading} />;
   }
   if (!isLoading && isError) {
     content = <ErrorMsg msg="There was an error" />;
@@ -47,9 +48,11 @@ const ColorFilter = ({setCurrPage,shop_right=false}) => {
       allColor = [...new Set([...allColor, ...uniqueColor])];
     });
 
+    // Filtrar los colores que tienen nombre válido (no vacío)
     let uniqueColors = [
-      ...new Map(allColor.map((color) => [color?.name, color])).values(),
+      ...new Map(allColor.filter(color => color?.name?.trim()).map((color) => [color?.name, color])).values(),
     ];
+
     content = uniqueColors.map((item, i) => {
       if (item) {
         return (

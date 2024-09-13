@@ -1,7 +1,8 @@
 'use client'
-import React,{ useState} from 'react';
+import React, { useState } from 'react';
 import Pagination from "@/ui/Pagination";
 import ProductItem from "../products/fashion/product-item";
+import SubCategoryFilter from "./shop-filter/subcategory-filter";
 import CategoryFilter from "./shop-filter/category-filter";
 import ColorFilter from "./shop-filter/color-filter";
 import PriceFilter from "./shop-filter/price-filter";
@@ -13,12 +14,15 @@ import ShopTopLeft from "./shop-top-left";
 import ShopTopRight from "./shop-top-right";
 import ResetButton from "./shop-filter/reset-button";
 
-const ShopContent = ({all_products,products,otherProps,shop_right,hidden_sidebar}) => {
-  const {priceFilterValues,selectHandleFilter,currPage,setCurrPage} = otherProps;
-  const {setPriceValue} = priceFilterValues || {};
+const ShopContent = ({ all_products, products, otherProps, shop_right, hidden_sidebar }) => {
+  const { priceFilterValues, selectHandleFilter, currPage, setCurrPage } = otherProps;
+  const { setPriceValue } = priceFilterValues || {};
   const [filteredRows, setFilteredRows] = useState(products);
   const [pageStart, setPageStart] = useState(0);
   const [countOfPage, setCountOfPage] = useState(12);
+  const [selectedCategory, setSelectedCategory] = useState(null); // Nueva: para manejar categoría seleccionada
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null); // Nueva: para manejar subcategoría seleccionada
+  const [hasSubCategories, setHasSubCategories] = useState(true); // Nueva: para determinar si la categoría tiene subcategorías
 
   const paginatedData = (items, startPage, pageCount) => {
     setFilteredRows(items);
@@ -30,9 +34,10 @@ const ShopContent = ({all_products,products,otherProps,shop_right,hidden_sidebar
   const maxPrice = all_products.reduce((max, product) => {
     return product.price > max ? product.price : max;
   }, 0);
+
   return (
     <>
-     <section className="tp-shop-area pb-120">
+      <section className="tp-shop-area pb-120">
         <div className="container">
           <div className="row">
             {!shop_right && !hidden_sidebar && (
@@ -44,11 +49,22 @@ const ShopContent = ({all_products,products,otherProps,shop_right,hidden_sidebar
                     maxPrice={maxPrice}
                   />
                   {/* categories */}
-                  <CategoryFilter setCurrPage={setCurrPage} />
+                  <CategoryFilter
+                    setCurrPage={setCurrPage}
+                    setSelectedCategory={setSelectedCategory}
+                    setSelectedSubCategory={setSelectedSubCategory} // Restablecer subcategoría
+                    setHasSubCategories={setHasSubCategories} // Determinar si la categoría tiene subcategorías
+                  />
+                  {/* subcategories */}
+                  {hasSubCategories && (
+                    <SubCategoryFilter
+                      setCurrPage={setCurrPage}
+                      selectedCategory={selectedCategory} // Pasar categoría seleccionada
+                      setSelectedSubCategory={setSelectedSubCategory} // Mantenimiento de subcategoría
+                    />
+                  )}
                   {/* color */}
                   <ColorFilter setCurrPage={setCurrPage} />
-                  {/* product rating 
-                  <TopRatedProducts />*/}
                   {/* brand */}
                   <ProductBrand setCurrPage={setCurrPage} />
                   {/* reset filter */}
@@ -63,14 +79,7 @@ const ShopContent = ({all_products,products,otherProps,shop_right,hidden_sidebar
                   <div className="row">
                     <div className="col-xl-6">
                       <ShopTopLeft
-                        showing={
-                          products.length === 0
-                            ? 0
-                            : filteredRows.slice(
-                                pageStart,
-                                pageStart + countOfPage
-                              ).length
-                        }
+                        showing={products.length === 0 ? 0 : filteredRows.slice(pageStart, pageStart + countOfPage).length}
                         total={all_products.length}
                       />
                     </div>
@@ -83,41 +92,24 @@ const ShopContent = ({all_products,products,otherProps,shop_right,hidden_sidebar
                 {products.length > 0 && (
                   <div className="tp-shop-items-wrapper tp-shop-item-primary">
                     <div className="tab-content" id="productTabContent">
-                      <div
-                        className="tab-pane fade show active"
-                        id="grid-tab-pane"
-                        role="tabpanel"
-                        aria-labelledby="grid-tab"
-                        tabIndex="0"
-                      >
+                      <div className="tab-pane fade show active" id="grid-tab-pane" role="tabpanel" aria-labelledby="grid-tab" tabIndex="0">
                         <div className="row">
                           {filteredRows
                             .slice(pageStart, pageStart + countOfPage)
-                            .map((item,i) => (
-                              <div
-                                key={i}
-                                className="col-xl-4 col-md-6 col-sm-6"
-                              >
+                            .map((item, i) => (
+                              <div key={i} className="col-xl-4 col-md-6 col-sm-6">
                                 <ProductItem product={item} />
                               </div>
                             ))}
                         </div>
                       </div>
-                      <div
-                        className="tab-pane fade"
-                        id="list-tab-pane"
-                        role="tabpanel"
-                        aria-labelledby="list-tab"
-                        tabIndex="0"
-                      >
+                      <div className="tab-pane fade" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab" tabIndex="0">
                         <div className="tp-shop-list-wrapper tp-shop-item-primary mb-70">
                           <div className="row">
                             <div className="col-xl-12">
-                              {filteredRows
-                                .slice(pageStart, pageStart + countOfPage)
-                                .map((item,i) => (
-                                  <ShopListItem key={i} product={item} />
-                                ))}
+                              {filteredRows.slice(pageStart, pageStart + countOfPage).map((item, i) => (
+                                <ShopListItem key={i} product={item} />
+                              ))}
                             </div>
                           </div>
                         </div>
@@ -145,10 +137,7 @@ const ShopContent = ({all_products,products,otherProps,shop_right,hidden_sidebar
               <div className="col-xl-3 col-lg-4">
                 <div className="tp-shop-sidebar mr-10">
                   {/* filter */}
-                  <PriceFilter
-                    priceFilterValues={priceFilterValues}
-                    maxPrice={maxPrice}
-                  />
+                  <PriceFilter priceFilterValues={priceFilterValues} maxPrice={maxPrice} />
                   {/* status */}
                   <StatusFilter setCurrPage={setCurrPage} />
                   {/* categories */}
@@ -162,11 +151,11 @@ const ShopContent = ({all_products,products,otherProps,shop_right,hidden_sidebar
                   {/* reset filter */}
                   <ResetButton setPriceValues={setPriceValue} maxPrice={maxPrice} />
                 </div>
-             </div>
+              </div>
             )}
           </div>
         </div>
-      </section> 
+      </section>
     </>
   );
 };

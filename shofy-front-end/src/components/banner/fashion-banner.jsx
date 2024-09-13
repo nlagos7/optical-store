@@ -54,7 +54,7 @@ const slider_setting = {
     clickable: true,
   },
   autoplay: {
-    delay: 900000, // Cambia de slide cada 4 segundos
+    delay: 4000, // Cambia de slide cada 4 segundos
     disableOnInteraction: false, // El autoplay no se detendrá si el usuario interactúa con los controles de navegación
   },
 }

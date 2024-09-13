@@ -136,14 +136,31 @@ const ShopArea = ({ shop_right = false }) => {
       );
     }
 
-    // category filter
-    if (subCategory) {
-      product_items = product_items.filter(
-        (p) =>
-          p.children.toLowerCase().replace("&", "").split(" ").join("-") ===
-          subCategory
-      );
-    }
+// category filter
+if (subCategory) {
+  // Convertimos las subcategorías en un array (por ejemplo: ['hombre', 'mujer'])
+  const subCategoriesArray = subCategory
+    .split(",")               // Dividir por comas
+    .map(cat => cat.toLowerCase() // Convertir a minúsculas
+    .replace(/&/g, "")        // Eliminar el carácter &
+    .trim()                   // Eliminar espacios en blanco
+    .split(" ").join("-"));   // Reemplazar espacios por guiones
+
+  product_items = product_items.filter((p) => {
+    if (!p.children) return false;
+
+    // Normalizamos el valor de children
+    const normalizedChildren = p.children
+      .toLowerCase()
+      .replace(/&/g, "")
+      .trim()
+      .split(" ").join("-");
+
+    // Verificamos si alguna de las subcategorías coincide con el children
+    return subCategoriesArray.includes(normalizedChildren);
+  });
+}
+
 
     // color filter
     if (filterColor) {

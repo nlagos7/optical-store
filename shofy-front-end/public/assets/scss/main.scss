@@ -145,6 +145,7 @@
 .tp-banner-item-2 {
     min-height: 280px;
     border-radius: 20px;
+    padding: 0;
 }
 
 .tp-banner-title-2 a:hover{
@@ -248,6 +249,12 @@
 .zoomable-image-wrapper {
   overflow: hidden;
   cursor: grab;
+}
+
+/* CSS para mostrar el dropdown en hover */
+.has-dropdown:hover .tp-submenu,
+.has-dropdown:hover .tp-mega-menu {
+  display: block;
 }
 
   

@@ -7,7 +7,7 @@ import ProductItem from './product-item';
 import { HomeTwoPrdLoader } from '@/components/loader';
 
 // tabs
-const tabs = ["Todos", "Hombre", "Mujer", "Niños"];
+const tabs = ["Todos", "Lentes", "Gafas", "Productos"];
 
 const ProductArea = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -37,12 +37,12 @@ const ProductArea = () => {
     if (activeTab === 'Todos') {
       product_items = products.data
     }
-    else if (activeTab === 'Hombre') {
-      product_items = products.data.filter(p => p.category.name === 'Hombre')
-    } else if (activeTab === 'Mujer') {
-      product_items = products.data.filter(p => p.category.name === 'Mujer')
-    } else if (activeTab === 'Niños') {
-      product_items = products.data.filter(p => p.category.name === 'Niños')
+    else if (activeTab === 'Lentes') {
+      product_items = products.data.filter(p => p.category.name === 'Lentes opticos')
+    } else if (activeTab === 'Gafas') {
+      product_items = products.data.filter(p => p.category.name === 'Gafas de sol')
+    } else if (activeTab === 'Productos') {
+      product_items = products.data.filter(p => p.category.name === 'Productos')
     } else {
       product_items = products.data;
     }

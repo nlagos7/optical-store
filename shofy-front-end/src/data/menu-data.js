@@ -24,17 +24,17 @@ const menu_data = [
       {
         img: home_2,
         title: 'Hombre',
-        link: '/shop?category=hombre'
+        link: '/shop?subCategory=hombre,unisex'
       },
       {
         img: home_1,
         title: 'Mujer',
-        link: '/shop?category=mujer'
+        link: '/shop?subCategory=mujer,unisex'
       },
       {
         img: home_3,
         title: 'Niños',
-        link: '/shop?category=niños'
+        link: '/shop?subCategory=niños'
       },
       {
         img: home_4,
@@ -74,9 +74,9 @@ export const mobile_menu = [
     title: 'Lentes',
     link: '#',
     sub_menus: [
-      { title: 'Hombre', link: '/shop?category=hombre' },
-      { title: 'Mujer', link: '/shop?category=mujer' },
-      { title: 'Niños', link: '/shop?category=niños' },
+      { title: 'Hombre', link: '/shop?subCategory=hombre,unisex' },
+      { title: 'Mujer', link: '/shop?subCategory=mujer,unisex' },
+      { title: 'Niños', link: '/shop?subCategory=niños' },
       { title: 'Ver todo', link: '/shop' },
     ],
   },
