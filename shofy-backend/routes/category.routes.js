@@ -10,7 +10,9 @@ router.post('/add', categoryController.addCategory);
 // add All Category
 router.post('/add-all', categoryController.addAllCategory);
 // get all Category
-router.get('/all', categoryController.getAllCategory);
+router.get('/all', categoryController.getAllCategory);// 
+// Obtener los children de una categoría por productType
+router.get('/category/productType/:productType/children', categoryController.getCategoryChildrenByType);
 // get Product Type Category
 router.get('/show/:type', categoryController.getProductTypeCategory);
 // get Show Category

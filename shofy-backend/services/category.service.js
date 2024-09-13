@@ -21,6 +21,18 @@ exports.getShowCategoryServices = async () => {
   return category;
 }
 
+// get children of a category by productType
+exports.getCategoryChildrenByTypeService = async (productType) => {
+  const category = await Category.findOne({ productType: productType });
+
+  if (!category) {
+    throw new ApiError(404, 'Category not found');
+  }
+
+  // Devolver solo los children
+  return category.children;
+}
+
 // get all category 
 exports.getAllCategoryServices = async () => {
   const category = await Category.find({})

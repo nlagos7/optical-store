@@ -55,6 +55,18 @@ exports.getAllCategory = async (req,res,next) => {
   }
 }
 
+// get children of a category by productType
+exports.getCategoryChildrenByType = async (req, res, next) => {
+  try {
+    const result = await categoryServices.getCategoryChildrenByTypeService(req.params.productType);
+    res.status(200).json({
+      success: true,
+      children: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // add all category
 exports.getProductTypeCategory = async (req,res,next) => {

@@ -4,9 +4,9 @@ const { secret } = require('./secret');
 
 // sendEmail
 module.exports.sendEmail = (body, res, message) => {
+  console.log('Iniciando la creación del transportador de correo...');
   const transporter = nodemailer.createTransport({
     host: secret.email_host,
-    service: secret.email_service, //comment this line if you use custom server/domain
     port: secret.email_port,
     secure: true,
     auth: {
@@ -15,27 +15,30 @@ module.exports.sendEmail = (body, res, message) => {
     },
   });
 
+  console.log('Verificando el transportador...');
   transporter.verify(function (err, success) {
     if (err) {
-      res.status(403).send({
-        message: `Error happen when verify ${err.message}`,
+      console.error(`Error durante la verificación: ${err.message}`);
+      return res.status(403).send({
+        message: `Error durante la verificación: ${err.message}`,
       });
-      console.log(err.message);
     } else {
-      console.log('Server is ready to take our messages');
+      console.log('Servidor listo para enviar correos.');
     }
-  });
 
-  transporter.sendMail(body, (err, data) => {
-    if (err) {
-      res.status(403).send({
-        message: `Error happen when sending email ${err.message}`,
-      });
-    } else {
-      res.send({
-        message: message,
-      });
-    }
+    console.log('Enviando correo...');
+    transporter.sendMail(body, (err, data) => {
+      if (err) {
+        console.error(`Error enviando el correo: ${err.message}`);
+        return res.status(403).send({
+          message: `Error enviando el correo: ${err.message}`,
+        });
+      } else {
+        console.log('Correo enviado con éxito:', data);
+        return res.send({
+          message: message,
+        });
+      }
+    });
   });
 };
-
