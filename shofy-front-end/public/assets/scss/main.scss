@@ -259,6 +259,12 @@
 
   
   @media (max-width: 575px) {
+  .tp-slider-item-2 img{
+      height: 300px !important;
+    }
+  .tp-banner-thumb-2 {
+    height: 200px !important;
+  }
     .tp-filter-btn {
         min-width: 100% !important;
     }    
@@ -269,5 +275,18 @@
 
     .tp-slider-content-2 {
         padding-top: 50px;
+    }
+    .tp-banner-item-2 {
+      height: 200px !important;
+      max-height: 200px !important;
+      min-height: 200px !important;
+    }
+  
+    .tp-banner-thumb-2 {
+      height: 200px !important; /* Limita la altura del fondo en móviles */
+    }
+  
+    .tp-banner-title-2 {
+      font-size: 16px; /* Ajusta el tamaño del texto */
     }
 }

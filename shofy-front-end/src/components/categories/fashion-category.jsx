@@ -45,17 +45,17 @@ const FashionCategory = () => {
       <div className="container-fluid">
         <div className="row tp-gx-20">
           {localCategories.map((item) => (
-            <div key={item._id} className="col-xxl-4 col-lg-4">
+            <div key={item._id} className="col-xxl-4 col-lg-4 col-4">
               <div className="tp-banner-item-2 p-relative z-index-1 grey-bg-2 mb-20 fix">
-                <div
-                  className="tp-banner-thumb-2 p-relative transition-3"
-                  style={{
-                    backgroundImage: `url(${item.img.src})`, // Accediendo al 'src' de la imagen
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    height: "300px" // Ajusta la altura del contenedor
-                  }}
-                ></div>
+              <div
+  className="tp-banner-thumb-2 p-relative transition-3"
+  style={{
+    backgroundImage: `url(${item.img.src})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    height: "300px", // Altura predeterminada
+  }}
+></div>
                 <h3 className="tp-banner-title-2">
                   <a
                     className="cursor-pointer"

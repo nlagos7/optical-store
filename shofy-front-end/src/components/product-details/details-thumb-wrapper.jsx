@@ -124,7 +124,17 @@ const DetailsThumbWrapper = ({
       {/* Imagen principal */}
       <div
         className="main-image-container"
-        style={{ position: "relative", backgroundColor: "#fff", marginLeft: !isMobile ? '20px' : '0', width: isMobile ? '100%' : `${imgWidth}px`, height: isMobile ? 'auto' : `${imgHeight}px` }}
+        style={{ 
+          position: "relative", 
+          backgroundColor: "#fff", 
+          marginLeft: !isMobile ? '20px' : '0', 
+          width: isMobile ? '100%' : `${imgWidth}px`, 
+          height: 'auto', // Ajusta la altura automática al contenido
+          maxHeight: `${imgHeight}px`, // Limita la altura máxima de la imagen
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
         onClick={openModal} // Abrir modal al hacer clic en la imagen
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -135,26 +145,26 @@ const DetailsThumbWrapper = ({
           style={{
             position: 'relative',
             width: "100%",
-            height: "100%",
+            height: "auto", // Ajuste automático de altura
             overflow: 'hidden',
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center', // Centrar imagen verticalmente
+            alignItems: 'center', // Centrar la imagen verticalmente
           }}
         >
           <Image
             src={activeImg} // Utilizar activeImg directamente
             alt="product img"
-            width={imgWidth}
-            height={imgHeight}
+            width={imgWidth} // El ancho sigue siendo el que especificas
+            height={imgHeight} // El alto máximo se define, pero no es fijo
             quality={100} // Forzar máxima calidad
             priority // Priorizar la imagen principal para evitar demoras
             style={{
-              maxWidth: "100%",
-              maxHeight: "100%",
-              objectFit: "contain", // Ajuste para que la imagen siempre mantenga sus proporciones
-              width: isMobile ? 'auto' : `${imgWidth}px`,
-              height: isMobile ? 'auto' : `${imgHeight}px`,
+              maxWidth: "100%", // Asegura que la imagen no exceda el contenedor en ancho
+              maxHeight: "100%", // Asegura que la imagen no exceda el contenedor en altura
+              objectFit: "contain", // Mantener proporciones de la imagen
+              width: isMobile ? 'auto' : '100%', // Para móvil, que se ajuste al contenedor
+              height: 'auto', // Ajusta la altura automáticamente sin exceder
             }}
           />
 
@@ -165,27 +175,27 @@ const DetailsThumbWrapper = ({
             </div>
           )}
         </div>
-
-        {/* Indicadores de posición (círculos) para Mobile (vista normal) */}
-        {isMobile && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-            {imageURLs?.map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: i === activeIndex ? '#000' : '#e0e0e0',
-                  margin: '0 4px',
-                  cursor: 'pointer',
-                }}
-                onClick={() => changeImage(i)} // Cambiar imagen al hacer clic en los círculos
-              />
-            ))}
-          </div>
-        )}
       </div>
+
+      {/* Indicadores de posición (círculos) para Mobile (debajo de la imagen) */}
+      {isMobile && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+          {imageURLs?.map((_, i) => (
+            <div
+              key={i}
+              style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: i === activeIndex ? '#000' : '#e0e0e0',
+                margin: '0 4px',
+                cursor: 'pointer',
+              }}
+              onClick={() => changeImage(i)} // Cambiar imagen al hacer clic en los círculos
+            />
+          ))}
+        </div>
+      )}
 
       {/* Modal para mostrar slideshow */}
       {isModalOpen && (

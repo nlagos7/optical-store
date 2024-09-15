@@ -27,7 +27,7 @@ const ProductItem = ({ product, prdCenter = false,primary_style=false }) => {
 
   return (
     <div
-      className={`tp-product-item-3 mb-50 ${primary_style?"tp-product-style-primary":""} ${prdCenter ? "text-center" : ""}`}
+      className={`tp-product-item-3 mb-50 ${prdCenter ? "text-center" : ""}`}
     >
       <div className="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
         <Link href={`/product-details/${_id}`}>
@@ -38,7 +38,7 @@ const ProductItem = ({ product, prdCenter = false,primary_style=false }) => {
           {status === 'out-of-stock' && <span className="product-hot">out-stock</span>}
         </div>
 
-        {/* product action */}
+        {/* product action
         <div className="tp-product-action-3 tp-product-action-blackStyle">
           <div className="tp-product-action-item-3 d-flex flex-column">
             {isAddedToCart ? (
@@ -75,7 +75,7 @@ const ProductItem = ({ product, prdCenter = false,primary_style=false }) => {
             </button>
 
           </div>
-        </div>
+        </div> 
 
         <div className="tp-product-add-cart-btn-large-wrapper">
           {isAddedToCart ? (
@@ -95,7 +95,7 @@ const ProductItem = ({ product, prdCenter = false,primary_style=false }) => {
               Add To Cart
             </button>
           )}
-        </div>
+        </div>*/}
       </div>
       <div className="tp-product-content-3">
         <div className="tp-product-tag-3">
