@@ -124,6 +124,9 @@ const ProductItem = ({ product, style_2 = false }) => {
         <div className="tp-product-rating-icon tp-product-rating-icon-2">
           <Rating allowFraction size={16} initialValue={ratingVal} readonly={true} />
         </div>
+        <div className="tp-product-rating-icon tp-product-rating-icon-2">
+          <span style={{fontSize: '16px'}}>{category.name}</span>
+        </div>
         <div className="tp-product-price-wrapper-2">
           {discount > 0 ? (
             <>
