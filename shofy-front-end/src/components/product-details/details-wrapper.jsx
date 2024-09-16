@@ -78,7 +78,8 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
       {/* inventory details */}
       <div className="tp-product-details-inventory d-flex align-items-center mb-10">
         <div className="tp-product-details-stock mb-10">
-          <span>{status}</span>
+        {quantity === 0 && <span className="product-hot no-stock">Sin stock</span>}
+        {quantity > 0 && <span className="product-hot">Disponible</span>}
         </div>
       </div>
 
@@ -86,10 +87,10 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
       <div className="tp-product-details-price-wrapper mb-20">
         {discount > 0 ? (
           <>
-            <span className="tp-product-details-price old-price">${price}</span>
-            <span className="tp-product-details-price new-price">
-              {" "}${(Number(price) - (Number(price) * Number(discount)) / 100).toLocaleString('es-ES')}
-            </span>
+          <span className="tp-product-details-price new-price">
+            ${(Number(price) - Number(discount)).toLocaleString('es-ES')}
+          </span>
+          {" "}<span className="tp-product-details-price old-price">${price.toLocaleString('es-ES')}</span>
           </>
         ) : (
           <span className="tp-product-details-price new-price">${price.toLocaleString('es-ES')}</span>
@@ -127,12 +128,12 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
       {offerDate?.endDate && <ProductDetailsCountdown offerExpiryTime={offerDate?.endDate} />}
       {/* if ProductDetailsCountdown true end */}
 
-      {/* actions */}
+      {/* actions 
       <div className="tp-product-details-action-wrapper">
         <Link href="/cart" onClick={() => handleAddProduct(productItem)}>
           <button className="tp-product-details-buy-now-btn w-100">Comprar</button>
         </Link>
-      </div>
+      </div>*/}
       {/* product-details-action-sm start
       <div className="tp-product-details-action-sm">
         <button disabled={status === 'out-of-stock'} onClick={() => handleCompareProduct(productItem)} type="button" className="tp-product-details-action-sm-btn">

@@ -23,13 +23,13 @@ const DetailsBottomInfo = ({ sku, category, tag, productUrl, productName }) => {
           <span>Categoria: </span>
           <p>{category}</p>
         </div>
-        <div className="tp-product-details-query-item d-flex align-items-center">
+        {/*<div className="tp-product-details-query-item d-flex align-items-center">
           <span>Etiquetas: </span>
           <p>{tag}</p>
-        </div>
+        </div>*/}
       </div>
 
-      {/*  product-details-social */}
+      {/*  product-details-social
       <div className="tp-product-details-social">
         <span>Compartir: </span>
         <a
@@ -56,15 +56,15 @@ const DetailsBottomInfo = ({ sku, category, tag, productUrl, productName }) => {
         >
           <i className="fa-brands fa-linkedin-in"></i>
         </a>
-      </div>
+      </div> */}
 
-      {/* product-details-msg */}
+      {/* product-details-msg
       <div className="tp-product-details-msg mb-15">
         <ul>
           <li>Ordenes con receta hasta en 7 dias habiles</li>
-          {/*<li>Si compras antes de las 12:00, el pedido enviado el mismo dia</li>*/}
+          <li>Si compras antes de las 12:00, el pedido enviado el mismo dia</li>
         </ul>
-      </div>
+      </div>*/}
 
       {/* product-details-payment 
       <div className="tp-product-details-payment d-flex align-items-center flex-wrap justify-content-between">

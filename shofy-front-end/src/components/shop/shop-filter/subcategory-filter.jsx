@@ -20,33 +20,49 @@ const SubCategoryFilter = ({ setCurrPage, shop_right = false, selectedCategory, 
   const searchParams = useSearchParams();
   const subCategory = searchParams.get('subCategory');
 
-  // handle subcategory route
-  const handleSubCategoryRoute = (title) => {
-    setCurrPage(1);
-    const normalizedSubCategory = normalizeSlug(title); // Usamos la función para normalizar
+// handle subcategory route
+const handleSubCategoryRoute = (title) => {
+  setCurrPage(1);
+  const normalizedSubCategory = normalizeSlug(title); // Usamos la función para normalizar
 
-    setSelectedSubCategory(normalizedSubCategory); // Actualizar subcategoría seleccionada
+  setSelectedSubCategory(normalizedSubCategory); // Actualizar subcategoría seleccionada
 
-    // Si la subcategoría es "hombre" o "mujer", agregar "unisex"
-    let subCategorySlug = normalizedSubCategory;
-    if (subCategorySlug === "hombre" || subCategorySlug === "mujer") {
-      subCategorySlug = `${subCategorySlug},unisex`;
-    }
+  // Si la subcategoría es "hombre" o "mujer", agregar "unisex"
+  let subCategorySlug = normalizedSubCategory;
+  if (subCategorySlug === "hombre" || subCategorySlug === "mujer") {
+    subCategorySlug = `${subCategorySlug},unisex`;
+  }
 
-    // Redirigir con la categoría modificada
-    router.push(
-      `/${shop_right ? 'shop-right-sidebar' : 'shop'}?category=${selectedCategory}&subCategory=${subCategorySlug}`
-    );
-    dispatch(handleFilterSidebarClose());
-  };
+  // Construir la URL dependiendo de si hay o no categoría seleccionada
+  let url = `/${shop_right ? 'shop-right-sidebar' : 'shop'}?subCategory=${subCategorySlug}`;
+  
+  // Solo agregar categoría si no es nula o vacía
+  if (selectedCategory) {
+    url += `&category=${selectedCategory}`;
+  }
 
-  // handle "Ver todo" route (clear subcategory)
-  const handleViewAllRoute = () => {
-    setCurrPage(1);
-    setSelectedSubCategory(null); // Restablecer subcategoría
-    router.push(`/${shop_right ? 'shop-right-sidebar' : 'shop'}?category=${selectedCategory}`);
-    dispatch(handleFilterSidebarClose());
-  };
+  // Redirigir a la nueva URL
+  router.push(url);
+  dispatch(handleFilterSidebarClose());
+};
+
+// handle "Ver todo" route (clear subcategory)
+const handleViewAllRoute = () => {
+  setCurrPage(1);
+  setSelectedSubCategory(null); // Restablecer subcategoría
+  
+  // Construir la URL sin subcategoría
+  let url = `/${shop_right ? 'shop-right-sidebar' : 'shop'}`;
+  
+  // Solo agregar categoría si no es nula o vacía
+  if (selectedCategory) {
+    url += `?category=${selectedCategory}`;
+  }
+
+  // Redirigir a la nueva URL
+  router.push(url);
+  dispatch(handleFilterSidebarClose());
+};
 
   // Extraer todos los children de cada categoría y eliminamos duplicados
   let uniqueChildren = [];

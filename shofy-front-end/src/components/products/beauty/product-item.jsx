@@ -9,7 +9,7 @@ import { add_cart_product } from "@/redux/features/cartSlice";
 import { add_to_wishlist } from "@/redux/features/wishlist-slice";
 
 const ProductItem = ({ product, prdCenter = false,primary_style=false }) => {
-  const { _id, img, title, discount, price, tags,status } = product || {};
+  const { _id, img, title, discount, price, tags,status, quantity } = product || {};
   const { cart_products } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
   const isAddedToCart = cart_products.some((prd) => prd._id === _id);
@@ -35,7 +35,7 @@ const ProductItem = ({ product, prdCenter = false,primary_style=false }) => {
         </Link>
 
         <div className="tp-product-badge">
-          {status === 'out-of-stock' && <span className="product-hot">out-stock</span>}
+          {quantity === 0 && <span className="product-hot">Sin stock</span>}
         </div>
 
         {/* product action
@@ -104,9 +104,19 @@ const ProductItem = ({ product, prdCenter = false,primary_style=false }) => {
         <h3 className="tp-product-title-3">
           <Link href={`/product-details/${_id}`}>{title}</Link>
         </h3>
-        <div className="tp-product-price-wrapper-3">
-          <span className="tp-product-price-3">${price.toLocaleString('es-ES')}</span>
-        </div>
+      {/* price */}
+      <div className="tp-product-price-wrapper-3">
+        {discount > 0 ? (
+          <>
+          <span className="tp-product-price-3 new-price">
+            ${(Number(price) - Number(discount)).toLocaleString('es-ES')}
+          </span>
+          {" "}<span className="tp-product-price-3 old-price">${price.toLocaleString('es-ES')}</span>
+          </>
+        ) : (
+          <span className="tp-product-price-3 new-price">${price.toLocaleString('es-ES')}</span>
+        )}
+      </div>
       </div>
     </div>
   );

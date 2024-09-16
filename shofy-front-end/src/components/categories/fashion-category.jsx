@@ -1,11 +1,9 @@
 'use client';
 import React from "react";
 import { useRouter } from "next/navigation";
-// Asegúrate de que las imágenes estén en el directorio `public` si usas rutas públicas
 import home_1 from '@assets/img/menu/menu-home-1.png';
 import home_2 from '@assets/img/menu/menu-home-2.png';
 import home_3 from '@assets/img/menu/menu-home-3.png';
-import home_4 from '@assets/img/menu/menu-home-4.png';
 
 // Datos locales para las categorías
 const localCategories = [
@@ -31,13 +29,18 @@ const FashionCategory = () => {
 
   // Maneja la navegación a la ruta de la categoría
   const handleCategoryRoute = (title) => {
-    router.push(
-      `/shop?subCategory=${title
-        .toLowerCase()
-        .replace("&", "")
-        .split(" ")
-        .join("-")}`
-    );
+    // Verifica si es "Hombre" o "Mujer" y añade "unisex"
+    const unisex = (title === "Hombre" || title === "Mujer") ? ",unisex" : "";
+    
+    // Crea la ruta con el parámetro unisex si corresponde
+    const route = `/shop?subCategory=${title
+      .toLowerCase()
+      .replace("&", "")
+      .split(" ")
+      .join("-")}${unisex}`;
+    
+    // Navega a la ruta
+    router.push(route);
   };
 
   return (
@@ -45,24 +48,20 @@ const FashionCategory = () => {
       <div className="container-fluid">
         <div className="row tp-gx-20">
           {localCategories.map((item) => (
-            <div key={item._id} className="col-xxl-4 col-lg-4 col-4">
+            <div key={item._id} className="col-xxl-4 col-lg-4 col-4" 
+            onClick={() => handleCategoryRoute(item.parent)}>
               <div className="tp-banner-item-2 p-relative z-index-1 grey-bg-2 mb-20 fix">
-              <div
-  className="tp-banner-thumb-2 p-relative transition-3"
-  style={{
-    backgroundImage: `url(${item.img.src})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    height: "300px", // Altura predeterminada
-  }}
-></div>
+                <div
+                  className="tp-banner-thumb-2 p-relative transition-3"
+                  style={{
+                    backgroundImage: `url(${item.img.src})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    height: "300px", // Altura predeterminada
+                  }}
+                ></div>
                 <h3 className="tp-banner-title-2">
-                  <a
-                    className="cursor-pointer"
-                    onClick={() => handleCategoryRoute(item.parent)}
-                  >
                     {item.parent}
-                  </a>
                 </h3>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import CategoryFilter from "../shop/shop-filter/category-filter";
 import ColorFilter from "../shop/shop-filter/color-filter";
@@ -8,6 +8,7 @@ import StatusFilter from "../shop/shop-filter/status-filter";
 import TopRatedProducts from "../shop/shop-filter/top-rated-products";
 import { handleFilterSidebarClose, handleFilterSidebarOpen } from "@/redux/features/shop-filter-slice";
 import ResetButton from "../shop/shop-filter/reset-button";
+import SubCategoryFilter from "../shop/shop-filter/subcategory-filter";
 
 const ShopFilterOffCanvas = ({
   all_products,
@@ -16,6 +17,9 @@ const ShopFilterOffCanvas = ({
 }) => {
   const { priceFilterValues, setCurrPage } = otherProps;
   const { filterSidebar } = useSelector((state) => state.shopFilter);
+  const [selectedCategory, setSelectedCategory] = useState(null); // Nueva: para manejar categoría seleccionada
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null); // Nueva: para manejar subcategoría seleccionada
+  const [hasSubCategories, setHasSubCategories] = useState(true); // Nueva: para determinar si la categoría tiene subcategorías
   const dispatch = useDispatch();
 
   // max price
@@ -47,10 +51,16 @@ const ShopFilterOffCanvas = ({
               priceFilterValues={priceFilterValues}
               maxPrice={maxPrice}
             />
-            {/* status */}
-            <StatusFilter setCurrPage={setCurrPage} shop_right={right_side} />
             {/* categories */}
-            <CategoryFilter setCurrPage={setCurrPage} shop_right={right_side} />
+            <CategoryFilter setCurrPage={setCurrPage} shop_right={right_side} 
+                    setSelectedCategory={setSelectedCategory}
+                    setSelectedSubCategory={setSelectedSubCategory} // Restablecer subcategoría
+                    setHasSubCategories={setHasSubCategories} // Determinar si la categoría tiene subcategorías
+                    />
+            <SubCategoryFilter setCurrPage={setCurrPage} shop_right={right_side} 
+                      selectedCategory={selectedCategory} // Pasar categoría seleccionada
+                      setSelectedSubCategory={setSelectedSubCategory} // Mantenimiento de subcategoría
+                      />
             {/* color */}
             <ColorFilter setCurrPage={setCurrPage} shop_right={right_side} />
             {/* product rating 

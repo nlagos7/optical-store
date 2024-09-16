@@ -35,30 +35,24 @@ const Footer = ({ style_2 = false, style_3 = false,primary_style=false }) => {
               </div>
               <div className="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                 <div className="tp-footer-widget footer-col-2 mb-50">
-                  <h4 className="tp-footer-widget-title">Mi cuenta</h4>
+                  <h4 className="tp-footer-widget-title">Lentes ópticos</h4>
                   <div className="tp-footer-widget-content">
                     <ul>
-                      <li><a href="#">Seguimiento de pedidos</a></li>
-                      <li><a href="#">Envío</a></li>
-                      <li><a href="#">Favoritos</a></li>
-                      <li><a href="#">Mi cuenta</a></li>
-                      <li><a href="#">Historial de pedidos</a></li>
-                      <li><a href="#">Devoluciones</a></li>
+                      <li><a href="/shop?subCategory=hombre,unisex&category=lentes-opticos">Hombre</a></li>
+                      <li><a href="/shop?subCategory=mujer,unisex&category=lentes-opticos">Mujer</a></li>
+                      <li><a href="/shop?subCategory=niños&category=lentes-opticos">Niños</a></li>
                     </ul>
                   </div>
                 </div>
               </div>
               <div className="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                 <div className="tp-footer-widget footer-col-3 mb-50">
-                  <h4 className="tp-footer-widget-title">Información</h4>
+                  <h4 className="tp-footer-widget-title">Gafas de sol</h4>
                   <div className="tp-footer-widget-content">
                     <ul>
-                      <li><a href="#">Nuestra historia</a></li>
-                      <li><a href="#">Carreras</a></li>
-                      <li><a href="#">Política de privacidad</a></li>
-                      <li><a href="#">Términos y condiciones</a></li>
-                      <li><a href="#">Últimas noticias</a></li>
-                      <li><a href="#">Contactanos</a></li>
+                      <li><a href="/shop?subCategory=hombre,unisex&category=gafas-de-sol">Hombre</a></li>
+                      <li><a href="/shop?subCategory=mujer,unisex&category=gafas-de-sol">Mujer</a></li>
+                      <li><a href="/shop?subCategory=niños&category=gafas-de-sol">Niños</a></li>
                     </ul>
                   </div>
                 </div>
@@ -68,8 +62,8 @@ const Footer = ({ style_2 = false, style_3 = false,primary_style=false }) => {
                   <h4 className="tp-footer-widget-title">Contacto</h4>
                   <div className="tp-footer-widget-content">
                     <div className="tp-footer-talk mb-20">
-                      <span>¿Dudas? Hablanos</span>
-                      <h4><a href="tel:670-413-90-762">+569 413 90 762</a></h4>
+                      <span>¿Dudas? Escribenos</span>
+                      <h4><a href="#">+569 xxxxxxxx</a></h4>
                     </div>
                     <div className="tp-footer-contact">
                       <div className="tp-footer-contact-item d-flex align-items-start">
@@ -79,7 +73,7 @@ const Footer = ({ style_2 = false, style_3 = false,primary_style=false }) => {
                           </span>
                         </div>
                         <div className="tp-footer-contact-content">
-                          <p><a href="mailto:shofy@support.com">contacto@andesvisionoptica.com</a></p>
+                          <p><a href="mailto:shofy@support.com">contacto@andesvisionoptica.cl</a></p>
                         </div>
                       </div>
                       {/*<div className="tp-footer-contact-item d-flex align-items-start">
@@ -110,13 +104,13 @@ const Footer = ({ style_2 = false, style_3 = false,primary_style=false }) => {
                     </p>
                   </div>
                 </div>
-                <div className="col-md-6">
+                {/*<div className="col-md-6">
                   <div className="tp-footer-payment text-md-end">
                     <p>
                       <Image src={pay} alt="pay" />
                     </p>
                   </div>
-                </div>
+                </div>*/}
               </div>
             </div>
           </div>

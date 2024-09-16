@@ -47,7 +47,7 @@ const DetailsTabNav = ({ product }) => {
         <nav>
           <div className="nav nav-tabs justify-content-center p-relative tp-product-tab" id="navPresentationTab" role="tablist">
             <NavItem active={true} linkRef={activeRef} id="desc" title="Descripción" />
-            <NavItem id="additional" title="Información adicional" />
+            { /*<NavItem id="additional" title="Información adicional" />*/}
             {/*<NavItem id="review" title={`Reseñas (${reviews.length})`} />*/}
             <span ref={marker} id="productTabMarker" className="tp-product-details-tab-line"></span>
           </div>

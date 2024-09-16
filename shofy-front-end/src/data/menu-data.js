@@ -48,12 +48,6 @@ const menu_data = [
     title: 'Catalogo',
     link: '/shop',
   },
-  {
-    id: 6,
-    single_link: true,
-    title: 'Contacto',
-    link: '/contact',
-  },
 ]
 
 export default menu_data;
@@ -86,13 +80,6 @@ export const mobile_menu = [
     single_link: true,
     title: 'Catalogo',
     link: '/shop',
-  },
-  {
-    id: 4,
-    icon: contactIcon,
-    single_link: true,
-    title: 'Contacto',
-    link: '/contact',
   },
   /*{
     id: 5,

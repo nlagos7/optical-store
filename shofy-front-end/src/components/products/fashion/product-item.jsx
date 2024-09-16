@@ -128,10 +128,10 @@ const ProductItem = ({ product, style_2 = false }) => {
           {discount > 0 ? (
             <>
               <span className="tp-product-price-2 new-price">
-                ${price.toLocaleString('es-ES')}{" "}
+                ${(Number(price) - (Number(discount))).toLocaleString('es-ES')}
               </span>
-              <span className="tp-product-price-2 old-price">
-                {" "}${(Number(price) - (Number(price) * Number(discount)) / 100).toFixed(0).toLocaleString('es-ES')}
+              {" "}<span className="tp-product-price-2 old-price">
+              ${price.toLocaleString('es-ES')}
               </span>
             </>
           ) : (
