@@ -70,7 +70,7 @@ export default function SearchArea() {
     if (product_items.length === 0) {
       content = (
         <div className="text-center pt-80 pb-80">
-          <h3>Sorry, nothing matched <span style={{color:'#0989FF'}}>{searchText}</span> search terms</h3>
+          <h3>No se encontraron <span style={{color:'#000'}}>{searchText}</span> en la busqueda.</h3>
         </div>
       );
     }
