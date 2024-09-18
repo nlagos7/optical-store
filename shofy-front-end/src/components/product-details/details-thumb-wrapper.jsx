@@ -170,7 +170,7 @@ const DetailsThumbWrapper = ({
 
           {/* Contador de imágenes en la imagen principal */}
           {isMobile && (
-            <div style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: 'rgba(0,0,0,0.5)', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontSize: '14px' }}>
+            <div style={{ position: 'absolute', top: '0', right: '0', backgroundColor: 'rgba(0,0,0,0.5)', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontSize: '14px' }}>
               {activeIndex + 1} / {imageURLs.length}
             </div>
           )}
@@ -196,156 +196,156 @@ const DetailsThumbWrapper = ({
           ))}
         </div>
       )}
+{/* Modal para mostrar slideshow */}
+{isModalOpen && (
+  <div
+    className="modal-background"
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: 'rgba(0, 0, 0, 0.99)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000,
+    }}
+    onClick={closeModal} // Cerrar modal al hacer clic en el fondo oscuro
+    onTouchStart={handleTouchStart}
+    onTouchMove={handleTouchMove}
+    onTouchEnd={handleTouchEnd} // Swipe dentro del modal
+  >
+    <button
+    className="modal-background"
+      onClick={closeModal} // Cerrar modal al hacer clic en el fondo oscuro
+      style={{
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
+        color: '#fff',
+        background: 'none',
+        border: 'none',
+        fontSize: '36px',
+        cursor: 'pointer',
+      }}
+    >
+      &times;
+    </button>
 
-      {/* Modal para mostrar slideshow */}
-      {isModalOpen && (
-        <div
-          className="modal-background"
+    {/* Contador de imágenes fuera de la imagen, al mismo nivel que el botón cerrar */}
+    <div style={{ position: 'absolute', top: '20px', left: '20px', backgroundColor: 'rgba(0,0,0,0.5)', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontSize: '14px' }}>
+      {activeIndex + 1} / {imageURLs.length}
+    </div>
+
+    <div
+      className="modal-content"
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff', // Fondo blanco para la imagen
+        width: isMobile ? '100%' : 'auto', // Ancho 100% en mobile, automático en desktop
+        maxWidth: isMobile ? '100%' : '80vw', // Limitar el ancho máximo en desktop
+        height: isMobile ? 'auto' : 'auto', // Alto automático en desktop
+        maxHeight: '100%', // Limitar el alto máximo en ambas vistas
+        borderRadius: 0,
+      }}
+      onClick={(e) => e.stopPropagation()} // Evitar cerrar el modal al hacer clic en la imagen
+    >
+<Image
+  src={imageURLs[activeIndex].img}
+  alt="modal-image"
+  layout="responsive" // O usa "fill" dependiendo del caso
+  width={800} // Valor en píxeles para desktop, puedes ajustarlo
+  height={800} // Valor en píxeles para desktop, puedes ajustarlo
+  style={{
+    objectFit: 'contain',
+    maxWidth: '100%', // Esto hará que la imagen ocupe el 100% del ancho disponible en mobile
+    height: 'auto', // Mantiene la proporción
+  }}
+/>
+    </div>
+
+    {/* Flechas para cambiar imagen en el modal en DESKTOP */}
+    {!isMobile && (
+      <>
+        <button
+          onClick={() => changeImage((activeIndex - 1 + imageURLs.length) % imageURLs.length)} // Imagen anterior en el modal
           style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: 'rgba(0, 0, 0, 0.95)',
+            position: 'absolute',
+            left: '10px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            background: 'rgba(0, 0, 0, 0.6)', // Fondo semitransparente oscuro
+            border: 'none',
+            width: '60px', // Tamaño del botón cuadrado
+            height: '60px',
+            borderRadius: '0px', // Esquinas redondeadas
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: 1000,
+            cursor: 'pointer',
+            color: '#fff',
+            fontSize: '24px', // Tamaño de la flecha
+            transition: 'background 0.3s ease', // Transición suave para el fondo
           }}
-          onClick={closeModal} // Cerrar modal al hacer clic en el fondo oscuro
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd} // Swipe dentro del modal
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)')} // Efecto hover
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)')} // Quitar efecto hover
         >
-          <button
-            onClick={closeModal}
+          &larr;
+        </button>
+
+        <button
+          onClick={() => changeImage((activeIndex + 1) % imageURLs.length)} // Siguiente imagen en el modal
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            background: 'rgba(0, 0, 0, 0.6)', // Fondo semitransparente oscuro
+            border: 'none',
+            width: '60px', // Tamaño del botón cuadrado
+            height: '60px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer',
+            color: '#fff',
+            fontSize: '24px',
+            transition: 'background 0.3s ease',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)')}
+        >
+          &rarr;
+        </button>
+      </>
+    )}
+
+    {/* Círculos indicadores para cambiar imagen en el modal en mobile */}
+    {isMobile && (
+      <div style={{ position: 'absolute', bottom: '20px', display: 'flex', justifyContent: 'center' }}>
+        {imageURLs?.map((_, i) => (
+          <div
+            key={i}
             style={{
-              position: 'absolute',
-              top: '10px',
-              right: '10px',
-              color: '#fff',
-              background: 'none',
-              border: 'none',
-              fontSize: '24px',
+              width: '10px',
+              height: '10px',
+              borderRadius: '50%',
+              backgroundColor: i === activeIndex ? '#fff' : '#888',
+              margin: '0 6px',
               cursor: 'pointer',
             }}
-          >
-            &times;
-          </button>
+            onClick={() => changeImage(i)} // Cambiar la imagen en el modal al hacer clic en los indicadores
+          />
+        ))}
+      </div>
+    )}
+  </div>
+)}
 
-          {/* Contador de imágenes fuera de la imagen, al mismo nivel que el botón cerrar */}
-          <div style={{ position: 'absolute', top: '10px', left: '10px', backgroundColor: 'rgba(0,0,0,0.5)', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontSize: '14px' }}>
-            {activeIndex + 1} / {imageURLs.length}
-          </div>
-
-          <div
-            className="modal-content"
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              maxWidth: '100%',
-              maxHeight: '100%',
-              backgroundColor: '#fff', // Fondo blanco para la imagen
-              borderRadius: '0', // Aquí añadimos el border: 0
-            }}
-            onClick={(e) => e.stopPropagation()} // Evitar cerrar el modal al hacer clic en la imagen
-          >
-            <Image
-              src={imageURLs[activeIndex].img} // Mostrar la imagen actual en el modal
-              alt="modal-image"
-              layout="intrinsic"
-              objectFit="contain"
-              width={800}
-              height={800}
-              style={{
-                objectFit: 'contain', // Ajustar la imagen al tamaño disponible
-                width: isMobile ? '100%' : 'auto', // Aplicar width 100% solo en mobile
-                height: 'auto',
-                maxWidth: '100%',
-                maxHeight: '100%',
-              }}
-            />
-          </div>
-
-          {/* Flechas para cambiar imagen en el modal en DESKTOP */}
-          {!isMobile && (
-            <>
-              <button
-                onClick={() => changeImage((activeIndex - 1 + imageURLs.length) % imageURLs.length)} // Imagen anterior en el modal
-                style={{
-                  position: 'absolute',
-                  left: '10px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'rgba(0, 0, 0, 0.6)', // Fondo semitransparente oscuro
-                  border: 'none',
-                  width: '40px', // Tamaño del botón cuadrado
-                  height: '40px',
-                  borderRadius: '8px', // Esquinas redondeadas
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  color: '#fff',
-                  fontSize: '20px', // Tamaño de la flecha
-                  transition: 'background 0.3s ease', // Transición suave para el fondo
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)')} // Efecto hover
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)')} // Quitar efecto hover
-              >
-                &larr;
-              </button>
-
-              <button
-                onClick={() => changeImage((activeIndex + 1) % imageURLs.length)} // Siguiente imagen en el modal
-                style={{
-                  position: 'absolute',
-                  right: '10px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'rgba(0, 0, 0, 0.6)', // Fondo semitransparente oscuro
-                  border: 'none',
-                  width: '40px',
-                  height: '40px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  color: '#fff',
-                  fontSize: '20px',
-                  transition: 'background 0.3s ease',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)')}
-              >
-                &rarr;
-              </button>
-            </>
-          )}
-
-          {/* Círculos indicadores para cambiar imagen en el modal en mobile */}
-          {isMobile && (
-            <div style={{ position: 'absolute', bottom: '20px', display: 'flex', justifyContent: 'center' }}>
-              {imageURLs?.map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '50%',
-                    backgroundColor: i === activeIndex ? '#fff' : '#888',
-                    margin: '0 6px',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => changeImage(i)} // Cambiar la imagen en el modal al hacer clic en los indicadores
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 };

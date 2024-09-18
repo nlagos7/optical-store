@@ -58,7 +58,7 @@ const CategoryFilter = ({ setCurrPage, shop_right = false, setSelectedCategory, 
             category === normalizeSlug(item.parent) ? "active" : ""
           }
         >
-          {item.parent} <span>{item.products.length}</span>
+          {item.parent} {/*<span>{item.products.length}</span>*/}
         </a>
       </li>
     ));
